@@ -24,6 +24,8 @@ import DiffView from "@/components/DiffView";
 import { t, getLocale, setLocale as saveLocale, REFERENCE_TEXTS, LOCALES, type Locale } from "@/lib/i18n";
 import { checkNewBadges, type Badge } from "@/lib/badges";
 import BadgeCelebration from "@/components/BadgeCelebration";
+import BmcPrompt from "@/components/BmcPrompt";
+import { shouldShowBmc, type BmcContext } from "@/hooks/useBmcTrigger";
 import type { SpeedTestResult, DiffSegment, UserStats } from "@/lib/types";
 
 const EMAIL_WORD_COUNT = 150;
@@ -59,6 +61,7 @@ export default function HomePage() {
   const [previousBest, setPreviousBest] = useState<{ wpm: number; accuracy: number } | null>(null);
   const [locale, setLocaleState] = useState<Locale>("fr");
   const [celebrateBadge, setCelebrateBadge] = useState<Badge | null>(null);
+  const [bmcContext, setBmcContext] = useState<BmcContext | null>(null);
   const earnedBadgeIdsRef = useRef<Set<string>>(new Set());
   const dictStartRef = useRef(0);
 
@@ -188,6 +191,19 @@ export default function HomePage() {
       if (newBadges.length > 0) {
         earnedBadgeIdsRef.current.add(newBadges[0].id);
         setTimeout(() => setCelebrateBadge(newBadges[0]), 800);
+      }
+
+      // Smart BMC check (only if no badge is showing)
+      if (newBadges.length === 0) {
+        const prevTests = await getSpeedTests(userId);
+        const bmcTrigger = shouldShowBmc(
+          prevTests.length,
+          accuracy,
+          mockStats.currentStreak
+        );
+        if (bmcTrigger) {
+          setTimeout(() => setBmcContext(bmcTrigger), 1500);
+        }
       }
     },
     [speech, recorder, userId, currentText]
@@ -545,6 +561,15 @@ export default function HomePage() {
                 {t(locale, "results.restart")}
               </button>
             </div>
+
+            {/* Smart BMC prompt */}
+            {bmcContext && (
+              <BmcPrompt
+                context={bmcContext}
+                locale={locale}
+                onDismiss={() => setBmcContext(null)}
+              />
+            )}
           </div>
         )}
       </main>
