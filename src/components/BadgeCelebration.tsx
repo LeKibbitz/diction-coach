@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { t, type Locale } from "@/lib/i18n";
 
 interface BadgeCelebrationProps {
   badge: {
@@ -10,11 +11,12 @@ interface BadgeCelebrationProps {
     followUp: string;
   };
   onDismiss: () => void;
+  locale?: Locale;
 }
 
 const BMC_URL = "https://buymeacoffee.com/lekibbitz";
 
-export default function BadgeCelebration({ badge, onDismiss }: BadgeCelebrationProps) {
+export default function BadgeCelebration({ badge, onDismiss, locale = "fr" }: BadgeCelebrationProps) {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -53,7 +55,7 @@ export default function BadgeCelebration({ badge, onDismiss }: BadgeCelebrationP
             onClick={onDismiss}
             className="w-full py-2.5 rounded-xl bg-primary text-white font-medium hover:bg-primary-light transition-colors"
           >
-            Continuer l&apos;entraînement
+            {t(locale, "badge.continue")}
           </button>
           <a
             href={BMC_URL}
@@ -61,10 +63,10 @@ export default function BadgeCelebration({ badge, onDismiss }: BadgeCelebrationP
             rel="noopener noreferrer"
             className="block w-full py-2.5 rounded-xl bg-accent/10 text-accent font-medium hover:bg-accent/20 transition-colors text-sm"
           >
-            ☕ Vous aimez ? Offrez-moi un café
+            ☕ {t(locale, "badge.coffee")}
           </a>
           <p className="text-[10px] text-text-muted/50 mt-2">
-            Chaque café m&apos;aide à imaginer de nouveaux outils comme celui-ci.
+            {t(locale, "badge.coffeeNote")}
           </p>
         </div>
       </div>

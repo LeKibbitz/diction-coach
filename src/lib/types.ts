@@ -16,6 +16,9 @@ export type ExerciseCategory =
   | "punctuation"
   | "commands"
   | "speed"
+  | "prosody"
+  | "linking"
+  | "sounds"
   | "freeform";
 
 export interface Exercise {

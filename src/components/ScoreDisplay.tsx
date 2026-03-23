@@ -1,6 +1,7 @@
 "use client";
 
 import { getGrade } from "@/lib/scoring";
+import { t, type Locale } from "@/lib/i18n";
 import type { ErrorType } from "@/lib/types";
 
 interface ScoreDisplayProps {
@@ -9,15 +10,8 @@ interface ScoreDisplayProps {
   errorCount: number;
   errorTypes: Partial<Record<ErrorType, number>>;
   duration: number; // seconds
+  locale?: Locale;
 }
-
-const ERROR_LABELS: Record<ErrorType, string> = {
-  substitution: "Substitutions",
-  insertion: "Ajouts",
-  deletion: "Omissions",
-  punctuation: "Ponctuation",
-  command: "Commandes",
-};
 
 export default function ScoreDisplay({
   accuracy,
@@ -25,8 +19,13 @@ export default function ScoreDisplay({
   errorCount,
   errorTypes,
   duration,
+  locale = "fr",
 }: ScoreDisplayProps) {
   const grade = getGrade(accuracy);
+
+  const errorLabel = (type: ErrorType): string => {
+    return t(locale, `score.errorType.${type}`);
+  };
 
   return (
     <div className="space-y-6">
@@ -49,19 +48,19 @@ export default function ScoreDisplay({
       <div className="grid grid-cols-3 gap-3">
         <div className="rounded-xl bg-bg p-3 text-center border border-border">
           <div className="text-2xl font-bold text-primary">{wpm}</div>
-          <div className="text-xs text-text-muted">mots/min</div>
+          <div className="text-xs text-text-muted">{t(locale, "stats.wpm")}</div>
         </div>
         <div className="rounded-xl bg-bg p-3 text-center border border-border">
           <div className="text-2xl font-bold text-error">{errorCount}</div>
           <div className="text-xs text-text-muted">
-            {errorCount <= 1 ? "erreur" : "erreurs"}
+            {errorCount <= 1 ? t(locale, "score.error") : t(locale, "score.errors")}
           </div>
         </div>
         <div className="rounded-xl bg-bg p-3 text-center border border-border">
           <div className="text-2xl font-bold text-text">
             {Math.floor(duration)}s
           </div>
-          <div className="text-xs text-text-muted">durée</div>
+          <div className="text-xs text-text-muted">{t(locale, "score.duration")}</div>
         </div>
       </div>
 
@@ -69,14 +68,14 @@ export default function ScoreDisplay({
       {errorCount > 0 && (
         <div className="rounded-xl border border-border p-4">
           <h4 className="text-sm font-semibold mb-3">
-            Détail des erreurs
+            {t(locale, "score.errorDetail")}
           </h4>
           <div className="space-y-2">
             {(Object.entries(errorTypes) as [ErrorType, number][]).map(
               ([type, count]) => (
                 <div key={type} className="flex justify-between text-sm">
                   <span className="text-text-muted">
-                    {ERROR_LABELS[type]}
+                    {errorLabel(type)}
                   </span>
                   <span className="font-medium text-error">{count}</span>
                 </div>
@@ -89,14 +88,14 @@ export default function ScoreDisplay({
       {/* Encouragement message */}
       <p className="text-center text-sm text-text-muted italic">
         {accuracy >= 95
-          ? "Impressionnant ! Votre micro vous remercie."
+          ? t(locale, "score.msg95")
           : accuracy >= 80
-            ? "Très bien ! Encore un peu de pratique et ce sera parfait."
+            ? t(locale, "score.msg80")
             : accuracy >= 60
-              ? "Pas mal ! La machine commence à vous comprendre."
+              ? t(locale, "score.msg60")
               : accuracy >= 40
-                ? "On progresse ! Articulez davantage les fins de mots."
-                : "Votre micro pleure. Mais ne vous découragez pas !"}
+                ? t(locale, "score.msg40")
+                : t(locale, "score.msgLow")}
       </p>
     </div>
   );

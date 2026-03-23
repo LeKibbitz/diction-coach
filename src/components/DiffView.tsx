@@ -2,35 +2,37 @@
 
 import type { DiffSegment } from "@/lib/types";
 import { isFuzzyMatch } from "@/lib/diff";
+import { t, type Locale } from "@/lib/i18n";
 
 interface DiffViewProps {
   segments: DiffSegment[];
+  locale?: Locale;
 }
 
-export default function DiffView({ segments }: DiffViewProps) {
+export default function DiffView({ segments, locale = "fr" }: DiffViewProps) {
   return (
     <div className="space-y-4">
       {/* Legend */}
       <div className="flex flex-wrap gap-4 text-xs text-text-muted">
         <span className="flex items-center gap-1">
           <span className="w-3 h-3 rounded bg-success/20 border border-success/40" />
-          Correct
+          {t(locale, "diff.correct")}
         </span>
         <span className="flex items-center gap-1">
           <span className="w-3 h-3 rounded bg-error/20 border border-error/40" />
-          Erreur
+          {t(locale, "diff.error")}
         </span>
         <span className="flex items-center gap-1">
           <span className="w-3 h-3 rounded bg-accent/20 border border-accent/40" />
-          Quasi-correct
+          {t(locale, "diff.fuzzy")}
         </span>
         <span className="flex items-center gap-1">
           <span className="w-3 h-3 rounded bg-warning/20 border border-warning/40" />
-          Ajouté
+          {t(locale, "diff.added")}
         </span>
         <span className="flex items-center gap-1">
           <span className="w-3 h-3 rounded bg-text-muted/20 border border-text-muted/40 line-through" />
-          Manquant
+          {t(locale, "diff.missing")}
         </span>
       </div>
 
@@ -50,7 +52,7 @@ export default function DiffView({ segments }: DiffViewProps) {
               <span
                 key={i}
                 className="line-through text-text-muted/60 bg-text-muted/10 rounded px-0.5"
-                title={`Manquant : « ${seg.reference} »`}
+                title={`${t(locale, "diff.missing")} : « ${seg.reference} »`}
               >
                 {seg.reference}{" "}
               </span>
@@ -62,7 +64,7 @@ export default function DiffView({ segments }: DiffViewProps) {
               <span
                 key={i}
                 className="text-warning bg-warning/10 rounded px-0.5"
-                title={`Ajouté : « ${seg.recognized} »`}
+                title={`${t(locale, "diff.added")} : « ${seg.recognized} »`}
               >
                 {seg.recognized}{" "}
               </span>
@@ -79,7 +81,7 @@ export default function DiffView({ segments }: DiffViewProps) {
                     ? "text-accent bg-accent/10"
                     : "text-error bg-error/10"
                 }`}
-                title={`Attendu : « ${seg.reference} » — Vous avez dit : « ${seg.recognized} »`}
+                title={`${t(locale, "errors.expected")} « ${seg.reference} » — ${t(locale, "errors.got")} « ${seg.recognized} »`}
               >
                 <span className="line-through opacity-50 text-xs mr-1">
                   {seg.reference}

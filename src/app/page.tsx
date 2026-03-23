@@ -29,13 +29,6 @@ import type { SpeedTestResult, DiffSegment, UserStats } from "@/lib/types";
 const EMAIL_WORD_COUNT = 150;
 const EMAILS_PER_DAY = 10;
 
-const WPM_BENCHMARKS: { label: string; wpm: number; color: string }[] = [
-  { label: "Débutant clavier", wpm: 35, color: "bg-text-muted/30" },
-  { label: "Frappe moyenne", wpm: 65, color: "bg-accent/40" },
-  { label: "Frappe rapide", wpm: 100, color: "bg-accent/70" },
-  { label: "Dictée entraînée", wpm: 180, color: "bg-primary/50" },
-];
-
 type Step = "typing" | "dictation" | "results" | "training" | "retest";
 
 interface TestResult {
@@ -243,7 +236,7 @@ export default function HomePage() {
             <Link href="/progress" className="text-xs px-2 py-1.5 rounded-lg hover:bg-bg transition-colors text-text-muted hover:text-text">
               📊 {t(locale, "nav.progress")}
             </Link>
-            <CommandsHelp />
+            <CommandsHelp locale={locale} />
             <LocaleSelector value={locale} onChange={handleLocaleChange} />
             <ThemeToggle />
           </nav>
@@ -265,7 +258,7 @@ export default function HomePage() {
                   {done && !active ? "✓" : i + 1}
                 </div>
                 <div className={`text-[11px] shrink-0 ${active ? "text-text font-medium" : "text-text-muted"}`}>
-                  {s === "typing" ? "Frappe" : s === "dictation" ? (step === "retest" ? "Re-test" : "Dictée") : "Bilan"}
+                  {s === "typing" ? t(locale, "step.typing.label") : s === "dictation" ? (step === "retest" ? t(locale, "step.retest.label") : t(locale, "step.dictation")) : t(locale, "step.results.label")}
                 </div>
                 {i < 2 && <div className="flex-1 h-px bg-border mx-1" />}
               </div>
@@ -278,13 +271,13 @@ export default function HomePage() {
           <div>
             <div className="mb-4 p-3 rounded-xl bg-primary/5 border border-primary/20">
               <p className="text-sm text-primary">
-                <strong>Étape 1</strong> — Tapez ce texte au clavier le plus vite possible.
+                <strong>{t(locale, "page.step1")}</strong> — {t(locale, "typing.instruction")}
               </p>
             </div>
             {previousBest && (
               <div className="mb-4 p-2.5 rounded-lg bg-bg-card border border-border text-xs text-text-muted flex items-center gap-2">
-                <span>📈 Votre record dictée :</span>
-                <span className="font-medium text-primary">{previousBest.wpm} mots/min</span>
+                <span>📈 {t(locale, "record.label")}</span>
+                <span className="font-medium text-primary">{previousBest.wpm} {t(locale, "stats.wpm")}</span>
                 <span>•</span>
                 <span className="font-medium text-success">{previousBest.accuracy}%</span>
               </div>
@@ -318,7 +311,7 @@ export default function HomePage() {
             {typingResult && step === "dictation" && (
               <div className="p-3 rounded-xl bg-success/5 border border-success/20 flex items-center justify-between">
                 <span className="text-sm text-success">
-                  ⌨️ Frappe : <strong>{typingResult.wpm} mots/min</strong>
+                  ⌨️ {t(locale, "results.typing")} : <strong>{typingResult.wpm} {t(locale, "stats.wpm")}</strong>
                 </span>
                 <span className="text-xs text-text-muted">{Math.round(typingResult.durationSec)}s</span>
               </div>
@@ -327,15 +320,15 @@ export default function HomePage() {
             {step === "retest" && dictationResult && (
               <div className="p-3 rounded-xl bg-accent/5 border border-accent/20 flex items-center justify-between">
                 <span className="text-sm text-accent">
-                  Score précédent : <strong>{dictationResult.accuracy}%</strong> à {dictationResult.wpm} mots/min
+                  {t(locale, "results.previous")} <strong>{dictationResult.accuracy}%</strong> à {dictationResult.wpm} {t(locale, "stats.wpm")}
                 </span>
-                <span className="text-xs text-text-muted">Battez votre score !</span>
+                <span className="text-xs text-text-muted">{t(locale, "results.beat")}</span>
               </div>
             )}
 
             <div className="p-3 rounded-xl bg-primary/5 border border-primary/20">
               <p className="text-sm text-primary">
-                <strong>{step === "retest" ? "Re-test" : "Étape 2"}</strong> — {step === "retest" ? "Redictez le même texte pour mesurer vos progrès." : "Dictez le même texte à voix haute."}
+                <strong>{step === "retest" ? t(locale, "step.retest") : t(locale, "page.step2")}</strong> — {step === "retest" ? t(locale, "dictation.retest") : t(locale, "dictation.instruction")}
               </p>
             </div>
 
@@ -351,21 +344,21 @@ export default function HomePage() {
 
             {!dictating ? (
               <button onClick={startDictation} className="w-full py-3 rounded-xl bg-primary text-white font-semibold hover:bg-primary-light transition-colors">
-                Commencer la dictée
+                {t(locale, "dictation.start")}
               </button>
             ) : (
               <>
                 <div className="p-4 rounded-xl bg-primary/5 border border-primary/20 min-h-[60px]">
                   <div className="flex items-center gap-2 mb-2">
                     <div className="w-2.5 h-2.5 rounded-full bg-error animate-pulse" />
-                    <span className="text-xs text-error font-medium">Enregistrement</span>
+                    <span className="text-xs text-error font-medium">{t(locale, "dictation.recording")}</span>
                   </div>
                   <div className="text-sm leading-relaxed">
                     <LiveTranscript referenceText={currentText} currentTranscript={speech.transcript} interimText={speech.interimTranscript} />
                   </div>
                 </div>
                 <button onClick={() => stopDictation(step === "retest")} className="w-full py-3 rounded-xl bg-error text-white font-semibold hover:bg-error-light transition-colors">
-                  Terminer la dictée
+                  {t(locale, "dictation.stop")}
                 </button>
               </>
             )}
@@ -379,15 +372,15 @@ export default function HomePage() {
             <div className="grid grid-cols-2 gap-4">
               <div className="p-4 rounded-2xl border border-border bg-bg-card text-center">
                 <div className="text-2xl mb-1">⌨️</div>
-                <div className="text-xs text-text-muted mb-1">Frappe</div>
+                <div className="text-xs text-text-muted mb-1">{t(locale, "results.typing")}</div>
                 <div className="text-3xl font-bold">{typingResult.wpm}</div>
-                <div className="text-[10px] text-text-muted">mots/min • {typingResult.accuracy}%</div>
+                <div className="text-[10px] text-text-muted">{t(locale, "stats.wpm")} • {typingResult.accuracy}%</div>
               </div>
               <div className="p-4 rounded-2xl border border-primary/30 bg-primary/5 text-center">
                 <div className="text-2xl mb-1">🎤</div>
-                <div className="text-xs text-text-muted mb-1">Dictée</div>
+                <div className="text-xs text-text-muted mb-1">{t(locale, "results.dictation")}</div>
                 <div className="text-3xl font-bold text-primary">{activeResult.wpm}</div>
-                <div className="text-[10px] text-text-muted">mots/min • {activeResult.accuracy}%</div>
+                <div className="text-[10px] text-text-muted">{t(locale, "stats.wpm")} • {activeResult.accuracy}%</div>
               </div>
             </div>
 
@@ -401,13 +394,13 @@ export default function HomePage() {
                     : "bg-error/10 border border-error/30 text-error"
               }`}>
                 {retestResult.accuracy > dictationResult.accuracy
-                  ? `+${retestResult.accuracy - dictationResult.accuracy}% de précision ! Vos exercices ont payé.`
+                  ? `+${retestResult.accuracy - dictationResult.accuracy}% ${t(locale, "results.improvement")}`
                   : retestResult.accuracy === dictationResult.accuracy
-                    ? "Même score — continuez à vous entraîner !"
-                    : "Score en baisse — pas de panique, retentez après quelques exercices."}
+                    ? t(locale, "results.same")
+                    : t(locale, "results.worse")}
                 {retestResult.wpm !== dictationResult.wpm && (
                   <span className="block text-xs mt-1 opacity-70">
-                    Vitesse : {retestResult.wpm > dictationResult.wpm ? "+" : ""}{retestResult.wpm - dictationResult.wpm} mots/min
+                    {t(locale, "results.speed")} {retestResult.wpm > dictationResult.wpm ? "+" : ""}{retestResult.wpm - dictationResult.wpm} {t(locale, "stats.wpm")}
                   </span>
                 )}
               </div>
@@ -426,26 +419,26 @@ export default function HomePage() {
               return faster ? (
                 <div className="p-4 rounded-xl border border-border bg-bg-card">
                   <div className="text-center mb-3">
-                    <span className="text-sm text-text-muted">La dictée est </span>
+                    <span className="text-sm text-text-muted">{t(locale, "results.extrapolation.faster")} </span>
                     <span className="text-2xl font-bold text-success">{(dw / tw).toFixed(1)}x</span>
-                    <span className="text-sm text-text-muted"> plus rapide</span>
+                    <span className="text-sm text-text-muted"> {t(locale, "results.extrapolation.times")}</span>
                   </div>
                   <div className="grid grid-cols-3 gap-2 text-center">
                     <div className="p-2 rounded-lg bg-bg">
                       <div className="text-sm font-bold text-success">+{formatMinutes(savedPerDay)}</div>
-                      <div className="text-[10px] text-text-muted">par jour</div>
+                      <div className="text-[10px] text-text-muted">{t(locale, "results.extrapolation.perDay")}</div>
                     </div>
                     <div className="p-2 rounded-lg bg-bg">
                       <div className="text-sm font-bold text-success">+{formatMinutes(savedPerDay * 22)}</div>
-                      <div className="text-[10px] text-text-muted">par mois</div>
+                      <div className="text-[10px] text-text-muted">{t(locale, "results.extrapolation.perMonth")}</div>
                     </div>
                     <div className="p-2 rounded-lg bg-bg">
                       <div className="text-sm font-bold text-success">+{formatMinutes(savedPerYear)}</div>
-                      <div className="text-[10px] text-text-muted">par an</div>
+                      <div className="text-[10px] text-text-muted">{t(locale, "results.extrapolation.perYear")}</div>
                     </div>
                   </div>
                   <p className="text-[10px] text-text-muted text-center mt-2">
-                    Sur {EMAILS_PER_DAY} e-mails de ~20 lignes/jour
+                    {t(locale, "results.extrapolation.note").replace("{0}", String(EMAILS_PER_DAY))}
                   </p>
                 </div>
               ) : null;
@@ -454,15 +447,15 @@ export default function HomePage() {
             {/* Diff view */}
             {activeResult.diffSegments && activeResult.diffSegments.some((s) => s.type !== "equal") && (
               <div>
-                <h3 className="text-sm font-semibold mb-2">Comparaison détaillée</h3>
-                <DiffView segments={activeResult.diffSegments} />
+                <h3 className="text-sm font-semibold mb-2">{t(locale, "results.comparison")}</h3>
+                <DiffView segments={activeResult.diffSegments} locale={locale} />
               </div>
             )}
 
             {/* ─── DIAGNOSIS ─── */}
             {diagnoses.length > 0 && (
               <div className="p-4 rounded-xl border border-border bg-bg-card">
-                <h3 className="text-sm font-semibold mb-3">🔍 Diagnostic</h3>
+                <h3 className="text-sm font-semibold mb-3">🔍 {t(locale, "results.diagnosis")}</h3>
                 <p className="text-sm text-text-muted mb-4">{summary}</p>
 
                 <div className="space-y-2">
@@ -470,7 +463,7 @@ export default function HomePage() {
                     <div key={i} className="p-3 rounded-lg bg-bg">
                       <div className="flex items-center justify-between mb-1">
                         <span className="text-xs font-medium">{d.description}</span>
-                        <span className="text-xs px-1.5 py-0.5 rounded bg-error/10 text-error">{d.count} erreur{d.count > 1 ? "s" : ""}</span>
+                        <span className="text-xs px-1.5 py-0.5 rounded bg-error/10 text-error">{d.count} {d.count > 1 ? t(locale, "score.errors") : t(locale, "score.error")}</span>
                       </div>
                       <p className="text-xs text-text-muted">{d.advice}</p>
                       {d.examples.length > 0 && (
@@ -491,9 +484,9 @@ export default function HomePage() {
             {/* ─── RECOMMENDED EXERCISES ─── */}
             {recommendations.length > 0 && (
               <div className="p-4 rounded-xl border border-primary/20 bg-primary/5">
-                <h3 className="text-sm font-semibold mb-1">🎯 Exercices recommandés</h3>
+                <h3 className="text-sm font-semibold mb-1">🎯 {t(locale, "results.recommended")}</h3>
                 <p className="text-xs text-text-muted mb-3">
-                  Basés sur vos erreurs — travaillez ces exercices puis re-testez le même texte.
+                  {t(locale, "results.exerciseAdvice")}
                 </p>
                 <div className="space-y-2">
                   {recommendations.map((rec) => (
@@ -505,10 +498,10 @@ export default function HomePage() {
                       <div className="min-w-0">
                         <div className="text-sm font-medium">{rec.exercise.title}</div>
                         <div className="text-[10px] text-text-muted truncate">
-                          {rec.reason} • Niveau {rec.exercise.level}
+                          {rec.reason} • {t(locale, "results.level")} {rec.exercise.level}
                         </div>
                       </div>
-                      <span className="text-xs text-primary shrink-0 ml-2">Faire →</span>
+                      <span className="text-xs text-primary shrink-0 ml-2">{t(locale, "results.doExercise")}</span>
                     </Link>
                   ))}
                 </div>
@@ -517,11 +510,16 @@ export default function HomePage() {
 
             {/* Benchmarks */}
             <div className="p-4 rounded-xl border border-border bg-bg-card">
-              <h3 className="text-xs font-semibold mb-3 text-text-muted">Échelle de vitesse</h3>
+              <h3 className="text-xs font-semibold mb-3 text-text-muted">{t(locale, "benchmarks.title")}</h3>
               <div className="space-y-2">
-                {WPM_BENCHMARKS.map((b) => (
-                  <div key={b.label} className="flex items-center gap-2">
-                    <span className="text-[10px] text-text-muted w-28 shrink-0">{b.label}</span>
+                {([
+                  { labelKey: "benchmarks.beginner", wpm: 35, color: "bg-text-muted/30" },
+                  { labelKey: "benchmarks.average", wpm: 65, color: "bg-accent/40" },
+                  { labelKey: "benchmarks.fast", wpm: 100, color: "bg-accent/70" },
+                  { labelKey: "benchmarks.trained", wpm: 180, color: "bg-primary/50" },
+                ] as const).map((b) => (
+                  <div key={b.labelKey} className="flex items-center gap-2">
+                    <span className="text-[10px] text-text-muted w-28 shrink-0">{t(locale, b.labelKey)}</span>
                     <div className="flex-1 h-4 bg-bg rounded-full overflow-hidden relative">
                       <div className={`h-full ${b.color} rounded-full`} style={{ width: `${Math.min((b.wpm / 250) * 100, 100)}%` }} />
                       <span className="absolute right-1.5 top-0 h-full flex items-center text-[9px] text-text-muted">{b.wpm}</span>
@@ -529,7 +527,7 @@ export default function HomePage() {
                   </div>
                 ))}
                 <div className="flex items-center gap-2">
-                  <span className="text-[10px] font-medium text-primary w-28 shrink-0">🎤 Votre dictée</span>
+                  <span className="text-[10px] font-medium text-primary w-28 shrink-0">🎤 {t(locale, "benchmarks.yourDictation")}</span>
                   <div className="flex-1 h-4 bg-bg rounded-full overflow-hidden relative">
                     <div className="h-full bg-primary rounded-full" style={{ width: `${Math.min((activeResult.wpm / 250) * 100, 100)}%` }} />
                     <span className="absolute right-1.5 top-0 h-full flex items-center text-[9px] font-bold text-primary">{activeResult.wpm}</span>
@@ -541,10 +539,10 @@ export default function HomePage() {
             {/* Actions */}
             <div className="flex gap-3">
               <button onClick={startRetest} className="flex-1 py-3 rounded-xl bg-primary text-white font-medium hover:bg-primary-light transition-colors">
-                🔄 Re-tester le même texte
+                🔄 {t(locale, "results.retest")}
               </button>
               <button onClick={fullReset} className="flex-1 py-3 rounded-xl border border-border font-medium hover:bg-bg-card transition-colors">
-                Recommencer de zéro
+                {t(locale, "results.restart")}
               </button>
             </div>
           </div>
@@ -553,7 +551,7 @@ export default function HomePage() {
 
       <footer className="border-t border-border py-4 text-center">
         <Link href="/story" className="text-[10px] text-text-muted/50 hover:text-primary transition-colors">
-          🤧 Comment tout a commencé
+          🤧 {t(locale, "footer.story")}
         </Link>
         <span className="text-[10px] text-text-muted/30 mx-2">•</span>
         <span className="text-[10px] text-text-muted/50">
@@ -566,6 +564,7 @@ export default function HomePage() {
         <BadgeCelebration
           badge={celebrateBadge}
           onDismiss={() => setCelebrateBadge(null)}
+          locale={locale}
         />
       )}
     </div>

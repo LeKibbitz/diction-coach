@@ -1,0 +1,92 @@
+[
+  {
+    "id": "enc-01-consonantique-simple",
+    "category": "linking",
+    "level": 2,
+    "title": "Consonnes voyageuses",
+    "description": "En français, les consonnes finales sautent sur la voyelle suivante. Comme un chat sur un meuble. Inévitable.",
+    "referenceText": "Une amie arrive avec une idée originale.",
+    "hints": [
+      "Enchaînement consonantique : la consonne finale se colle à la voyelle suivante",
+      "« une amie » → [u-na-mi], pas [un / ami]",
+      "Pas de pause entre les mots — la consonne glisse naturellement"
+    ],
+    "expectedDurationSec": 7,
+    "tags": ["intermédiaire", "enchaînement", "consonantique"]
+  },
+  {
+    "id": "enc-02-liaisons-basiques",
+    "category": "linking",
+    "level": 2,
+    "title": "Les liaisons obligatoires",
+    "description": "Les consonnes muettes se réveillent devant une voyelle. C'est la magie des liaisons françaises.",
+    "referenceText": "Les amis des anciens élèves sont arrivés en avance.",
+    "hints": [
+      "Liaison : « les amis » → [le-za-mi], le « s » se prononce [z]",
+      "« des anciens » → [de-zɑ̃-sjɛ̃], « en avance » → [ɑ̃-na-vɑ̃s]",
+      "Les liaisons sont obligatoires après les déterminants et les prépositions"
+    ],
+    "expectedDurationSec": 8,
+    "tags": ["intermédiaire", "liaison", "obligatoire"]
+  },
+  {
+    "id": "enc-03-vocalique",
+    "category": "linking",
+    "level": 3,
+    "title": "Voyelle contre voyelle",
+    "description": "Deux voyelles qui se suivent ? Pas de pause. On glisse de l'une à l'autre comme sur du verglas.",
+    "referenceText": "Il a eu une idée extraordinaire à Osaka.",
+    "hints": [
+      "Enchaînement vocalique : pas de pause entre deux voyelles",
+      "« a eu » → [a-y], « idée extraordinaire » → [i-de-ɛks-tʁa-ɔʁ-di-nɛʁ]",
+      "Passage continu d'une voyelle à l'autre — zéro coupure glottale"
+    ],
+    "expectedDurationSec": 7,
+    "tags": ["avancé", "enchaînement", "vocalique"]
+  },
+  {
+    "id": "enc-04-mixte-phrases",
+    "category": "linking",
+    "level": 3,
+    "title": "Le toboggan sonore",
+    "description": "Liaisons et enchaînements dans la même phrase. Votre voix doit couler sans s'arrêter. Comme l'eau. Ou le café du matin.",
+    "referenceText": "Un ancien ami habite en Italie avec une artiste anglaise.",
+    "hints": [
+      "« Un ancien » → [œ̃-nɑ̃-sjɛ̃] (liaison + enchaînement)",
+      "« habite en » → [a-bi-tɑ̃] (enchaînement consonantique)",
+      "« une artiste anglaise » → [y-naʁ-tis-tɑ̃-glɛz] (tout s'enchaîne)"
+    ],
+    "expectedDurationSec": 8,
+    "tags": ["avancé", "liaison", "enchaînement", "mixte"]
+  },
+  {
+    "id": "enc-05-texte-fluide",
+    "category": "linking",
+    "level": 4,
+    "title": "La cascade de syllabes",
+    "description": "Un texte réaliste truffé d'enchaînements. Si vous arrivez à tout lier sans respirer au mauvais endroit, vous êtes officiellement fluide.",
+    "referenceText": "Cet après-midi, elle est allée acheter un appareil électronique dans une boutique italienne installée en face de notre immeuble.",
+    "hints": [
+      "Repérez tous les enchaînements : « elle est » [ɛ-lɛ], « allée acheter » [a-le-aʃ-te], « un appareil » [œ̃-na-pa-ʁɛj]",
+      "Ne coupez jamais entre une consonne finale et une voyelle initiale",
+      "Respirez uniquement entre les groupes rythmiques, pas entre les mots"
+    ],
+    "expectedDurationSec": 12,
+    "tags": ["avancé", "enchaînement", "fluide", "texte"]
+  },
+  {
+    "id": "enc-06-liaisons-pieges",
+    "category": "linking",
+    "level": 4,
+    "title": "Liaisons interdites",
+    "description": "Il y a des liaisons qu'on fait et d'autres qu'on ne fait pas. Confondre les deux, c'est comme mettre du ketchup sur du foie gras.",
+    "referenceText": "Les héros ont combattu et ont gagné. Un hangar immense abritait onze avions.",
+    "hints": [
+      "Pas de liaison devant « h aspiré » : « les / héros » (pas [le-ze-ʁo])",
+      "Pas de liaison après « et » : « et / ont » (pas [e-zɔ̃])",
+      "Liaison obligatoire : « onze avions » → [ɔ̃-za-vjɔ̃], « un hangar » → pas de liaison (h aspiré)"
+    ],
+    "expectedDurationSec": 9,
+    "tags": ["avancé", "liaison", "interdite", "piège"]
+  }
+]

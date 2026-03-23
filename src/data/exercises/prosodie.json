@@ -1,0 +1,118 @@
+[
+  {
+    "id": "pro-01-groupes-courts",
+    "category": "prosody",
+    "level": 1,
+    "title": "Petits groupes rythmiques",
+    "description": "Trois ou quatre syllabes par groupe. Même votre chat pourrait suivre le rythme.",
+    "referenceText": "Bonjour Madame. Comment allez-vous ? Très bien merci.",
+    "hints": [
+      "Toutes les syllabes ont la même durée sauf la dernière du groupe",
+      "Allongez légèrement « dame », « vous » et « ci »"
+    ],
+    "expectedDurationSec": 6,
+    "tags": ["débutant", "rythme", "MVT"]
+  },
+  {
+    "id": "pro-02-isosyllabisme",
+    "category": "prosody",
+    "level": 1,
+    "title": "Syllabes en rang d'oignons",
+    "description": "L'isosyllabisme : toutes les syllabes durent pareil. Sauf la dernière, qui traîne un peu. Comme un lundi.",
+    "referenceText": "Le soleil brille. Les oiseaux chantent. Le vent souffle doucement.",
+    "hints": [
+      "Chaque syllabe dure le même temps — ta-ta-ta-taaa",
+      "La dernière syllabe de chaque phrase dure deux fois plus longtemps"
+    ],
+    "expectedDurationSec": 7,
+    "tags": ["débutant", "rythme", "isosyllabisme"]
+  },
+  {
+    "id": "pro-03-comptage",
+    "category": "prosody",
+    "level": 1,
+    "title": "Le métronome humain",
+    "description": "Des groupes de trois syllabes bien réguliers. Vous êtes un métronome, pas un jazz band.",
+    "referenceText": "Il fait beau. Je suis là. C'est très bien. On y va.",
+    "hints": [
+      "Trois syllabes par groupe, toutes régulières",
+      "Marquez une micro-pause entre chaque phrase"
+    ],
+    "expectedDurationSec": 6,
+    "tags": ["débutant", "rythme", "régularité"]
+  },
+  {
+    "id": "pro-04-groupes-moyens",
+    "category": "prosody",
+    "level": 2,
+    "title": "Groupes de sens",
+    "description": "On allonge les groupes rythmiques. Le micro aime quand vous découpez la phrase en blocs logiques.",
+    "referenceText": "Les enfants du quartier jouent dans le parc tous les mercredis.",
+    "hints": [
+      "Découpez en groupes de sens : {Les enfants du quartier} {jouent dans le parc} {tous les mercredis}",
+      "Allongez la dernière syllabe de chaque groupe : « tier », « parc », « dis »"
+    ],
+    "expectedDurationSec": 8,
+    "tags": ["intermédiaire", "rythme", "groupes"]
+  },
+  {
+    "id": "pro-05-question-affirmation",
+    "category": "prosody",
+    "level": 2,
+    "title": "Question ou affirmation ?",
+    "description": "Même phrase, sens différent. L'intonation fait tout le travail. Votre voix, pas vos sourcils.",
+    "referenceText": "Tu viens demain. Tu viens demain ?",
+    "hints": [
+      "L'affirmation descend en fin de phrase : voix grave sur « main »",
+      "La question monte en fin de phrase : voix aiguë sur « main »",
+      "C'est la même phrase — seule l'intonation change le sens"
+    ],
+    "expectedDurationSec": 6,
+    "tags": ["intermédiaire", "intonation", "question"]
+  },
+  {
+    "id": "pro-06-intonation-groupes",
+    "category": "prosody",
+    "level": 2,
+    "title": "La montagne russe vocale",
+    "description": "La voix monte en milieu de phrase et descend à la fin. Comme une montagne russe, mais en moins dangereux.",
+    "referenceText": "Quand il fait beau, les gens sortent se promener dans les rues du centre-ville.",
+    "hints": [
+      "Montez la voix en fin de groupe intermédiaire : « beau » ↑",
+      "Descendez la voix en fin de phrase : « ville » ↓",
+      "C'est l'intonation démarcative : elle délimite les groupes"
+    ],
+    "expectedDurationSec": 9,
+    "tags": ["intermédiaire", "intonation", "démarcative"]
+  },
+  {
+    "id": "pro-07-alexandrins",
+    "category": "prosody",
+    "level": 3,
+    "title": "L'alexandrin parfait",
+    "description": "Douze syllabes, une césure au milieu, et tout le panache de la poésie française. Victor Hugo serait fier. Ou pas.",
+    "referenceText": "Je suis le ténébreux, le veuf, l'inconsolé.",
+    "hints": [
+      "Douze syllabes exactement : je-suis-le-té-né-breux / le-veuf-l'in-con-so-lé",
+      "Césure après la sixième syllabe : « breux » — allongez-la",
+      "Descendez sur la dernière syllabe : « lé »"
+    ],
+    "expectedDurationSec": 7,
+    "tags": ["avancé", "rythme", "poésie", "alexandrin"]
+  },
+  {
+    "id": "pro-08-phrase-complexe",
+    "category": "prosody",
+    "level": 3,
+    "title": "Le chef d'orchestre",
+    "description": "Quatre groupes rythmiques, des montées, des descentes, un rythme soutenu. Vous dirigez la phrase comme un orchestre.",
+    "referenceText": "Malgré la pluie qui tombait sans cesse, les manifestants ont continué leur marche jusqu'à la place de la République.",
+    "hints": [
+      "Quatre groupes : {Malgré la pluie} ↑ {qui tombait sans cesse} ↑ {les manifestants ont continué leur marche} ↑ {jusqu'à la place de la République} ↓",
+      "Chaque groupe intermédiaire monte légèrement — seul le dernier descend",
+      "Gardez un rythme régulier à l'intérieur de chaque groupe"
+    ],
+    "expectedDurationSec": 12,
+    "tags": ["avancé", "rythme", "intonation", "complexe"]
+  }
+]

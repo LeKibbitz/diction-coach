@@ -12,6 +12,7 @@ import DiffView from "@/components/DiffView";
 import ScoreDisplay from "@/components/ScoreDisplay";
 import CommandsHelp from "@/components/CommandsHelp";
 import LiveTranscript from "@/components/LiveTranscript";
+import { t, getLocale, type Locale } from "@/lib/i18n";
 import type { UserProfile } from "@/lib/types";
 
 export default function ExercisePage({
@@ -25,8 +26,10 @@ export default function ExercisePage({
 
   const [user, setUser] = useState<UserProfile | null>(null);
   const [initialized, setInitialized] = useState(false);
+  const [locale, setLocale] = useState<Locale>("fr");
 
   useEffect(() => {
+    setLocale(getLocale());
     getUser().then((u) => {
       if (!u || !u.onboardingComplete) {
         router.push("/onboarding");
@@ -62,15 +65,17 @@ export default function ExercisePage({
     );
   }
 
-  return <ExerciseEngine exercise={exercise} userId={user.id} />;
+  return <ExerciseEngine exercise={exercise} userId={user.id} locale={locale} />;
 }
 
 function ExerciseEngine({
   exercise,
   userId,
+  locale,
 }: {
   exercise: NonNullable<ReturnType<typeof getExercise>>;
   userId: string;
+  locale: Locale;
 }) {
   const router = useRouter();
   const speech = useSpeechRecognition("fr-FR");
@@ -109,16 +114,16 @@ function ExerciseEngine({
               onClick={() => router.push("/")}
               className="text-text-muted hover:text-text text-sm flex items-center gap-1"
             >
-              ← Retour
+              ←
             </button>
-            <CommandsHelp />
+            <CommandsHelp locale={locale} />
           </div>
 
           <div className="bg-bg-card rounded-3xl border border-border p-8">
             <div className="mb-6">
               <div className="flex items-center gap-2 mb-2">
                 <span className="text-xs px-2 py-0.5 rounded-full bg-primary/10 text-primary font-medium">
-                  Niveau {exercise.level}
+                  {t(locale, "results.level")} {exercise.level}
                 </span>
                 <span className="text-xs text-text-muted capitalize">
                   {exercise.category}
@@ -146,7 +151,7 @@ function ExerciseEngine({
             {exercise.hints && exercise.hints.length > 0 && (
               <div className="mb-6">
                 <h2 className="text-sm font-semibold text-text-muted mb-2">
-                  Conseils :
+                  {t(locale, "commands.tips")} :
                 </h2>
                 <ul className="space-y-1">
                   {exercise.hints.map((hint, i) => (
@@ -172,7 +177,7 @@ function ExerciseEngine({
               onClick={handleStart}
               className="w-full py-3 rounded-xl bg-primary text-white font-semibold text-lg hover:bg-primary-light transition-colors"
             >
-              Commencer la dictée
+              {t(locale, "dictation.start")}
             </button>
           </div>
         </div>
@@ -208,11 +213,11 @@ function ExerciseEngine({
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 rounded-full bg-error animate-pulse" />
                 <span className="text-sm font-medium text-error">
-                  Enregistrement en cours
+                  {t(locale, "dictation.recording")}
                 </span>
               </div>
               <div className="flex items-center gap-3">
-                <CommandsHelp />
+                <CommandsHelp locale={locale} />
                 <span className="font-mono text-text-muted text-sm">
                   {Math.floor(session.elapsedTime / 60)}:
                   {(session.elapsedTime % 60).toString().padStart(2, "0")}
@@ -276,7 +281,7 @@ function ExerciseEngine({
               onClick={handleStop}
               className="w-full py-3 rounded-xl bg-error text-white font-semibold text-lg hover:bg-error-light transition-colors"
             >
-              Terminer la dictée
+              {t(locale, "dictation.stop")}
             </button>
           </div>
         </div>
@@ -292,7 +297,7 @@ function ExerciseEngine({
         <div className="w-full max-w-2xl">
           <div className="bg-bg-card rounded-3xl border border-border p-8">
             <h1 className="text-2xl font-bold tracking-tight text-center mb-6">
-              Résultats
+              {t(locale, "step.results.label")}
             </h1>
 
             <ScoreDisplay
@@ -301,13 +306,14 @@ function ExerciseEngine({
               errorCount={r.errorCount}
               errorTypes={r.errorTypes}
               duration={r.audioDuration}
+              locale={locale}
             />
 
             <div className="mt-8">
               <h2 className="text-sm font-semibold mb-3">
-                Comparaison détaillée
+                {t(locale, "results.comparison")}
               </h2>
-              <DiffView segments={r.diffResult} />
+              <DiffView segments={r.diffResult} locale={locale} />
             </div>
 
             {/* Actions */}
@@ -319,7 +325,7 @@ function ExerciseEngine({
                   }
                   className="w-full py-3 rounded-xl bg-primary/10 text-primary font-medium hover:bg-primary/20 transition-colors"
                 >
-                  🎵 Voir la timeline audio
+                  🎵 Timeline audio
                 </button>
               )}
               <div className="flex gap-3">
@@ -327,13 +333,13 @@ function ExerciseEngine({
                   onClick={session.reset}
                   className="flex-1 py-3 rounded-xl border border-border font-medium hover:bg-bg transition-colors"
                 >
-                  Recommencer
+                  {t(locale, "controls.restart")}
                 </button>
                 <button
                   onClick={() => router.push("/")}
                   className="flex-1 py-3 rounded-xl bg-primary text-white font-medium hover:bg-primary-light transition-colors"
                 >
-                  Exercice suivant
+                  {t(locale, "nav.exercises")}
                 </button>
               </div>
             </div>

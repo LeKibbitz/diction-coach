@@ -4,6 +4,9 @@ import ponctuation from "./ponctuation.json";
 import commandes from "./commandes.json";
 import vitesse from "./vitesse.json";
 import defis from "./defis.json";
+import prosodie from "./prosodie.json";
+import enchainements from "./enchainements.json";
+import sons from "./sons.json";
 
 const allExercises: Exercise[] = [
   ...(phrasesSimples as Exercise[]),
@@ -11,6 +14,9 @@ const allExercises: Exercise[] = [
   ...(commandes as Exercise[]),
   ...(vitesse as Exercise[]),
   ...(defis as Exercise[]),
+  ...(prosodie as Exercise[]),
+  ...(enchainements as Exercise[]),
+  ...(sons as Exercise[]),
 ];
 
 export function getAllExercises(): Exercise[] {
@@ -31,33 +37,51 @@ export function getExercisesByLevel(level: number): Exercise[] {
 
 export const CATEGORIES: {
   id: ExerciseCategory;
-  label: string;
+  labelKey: string;
   emoji: string;
-  description: string;
+  descriptionKey: string;
 }[] = [
   {
     id: "phrases",
-    label: "Phrases",
+    labelKey: "category.phrases",
     emoji: "💬",
-    description: "Phrases simples et complexes pour travailler l'articulation",
+    descriptionKey: "category.phrases.desc",
   },
   {
     id: "punctuation",
-    label: "Ponctuation",
+    labelKey: "category.punctuation",
     emoji: "✍️",
-    description: "Apprenez à dicter points, virgules, guillemets et plus",
+    descriptionKey: "category.punctuation.desc",
   },
   {
     id: "commands",
-    label: "Commandes",
+    labelKey: "category.commands",
     emoji: "⌨️",
-    description: "Retours à la ligne, paragraphes et mise en forme vocale",
+    descriptionKey: "category.commands.desc",
   },
   {
     id: "speed",
-    label: "Vitesse",
+    labelKey: "category.speed",
     emoji: "⚡",
-    description: "Exercices chronométrés pour gagner en rapidité",
+    descriptionKey: "category.speed.desc",
+  },
+  {
+    id: "prosody",
+    labelKey: "category.prosody",
+    emoji: "🎵",
+    descriptionKey: "category.prosody.desc",
+  },
+  {
+    id: "linking",
+    labelKey: "category.linking",
+    emoji: "🔗",
+    descriptionKey: "category.linking.desc",
+  },
+  {
+    id: "sounds",
+    labelKey: "category.sounds",
+    emoji: "👂",
+    descriptionKey: "category.sounds.desc",
   },
 ];
 

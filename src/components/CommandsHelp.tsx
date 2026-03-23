@@ -2,18 +2,23 @@
 
 import { useState } from "react";
 import { VOICE_COMMANDS_REFERENCE, type VoiceCommand } from "@/lib/commands";
+import { t, type Locale } from "@/lib/i18n";
 
-const CATEGORY_LABELS: Record<VoiceCommand["category"], { label: string; emoji: string }> = {
-  punctuation: { label: "Ponctuation", emoji: "✍️" },
-  formatting: { label: "Mise en forme", emoji: "📐" },
-  casing: { label: "Majuscules", emoji: "🔠" },
-  symbols: { label: "Symboles", emoji: "🔣" },
-  lists: { label: "Listes", emoji: "📋" },
+const CATEGORY_KEYS: Record<VoiceCommand["category"], { i18nKey: string; emoji: string }> = {
+  punctuation: { i18nKey: "commands.cat.punctuation", emoji: "✍️" },
+  formatting: { i18nKey: "commands.cat.formatting", emoji: "📐" },
+  casing: { i18nKey: "commands.cat.casing", emoji: "🔠" },
+  symbols: { i18nKey: "commands.cat.symbols", emoji: "🔣" },
+  lists: { i18nKey: "commands.cat.lists", emoji: "📋" },
 };
 
-const CATEGORIES = Object.keys(CATEGORY_LABELS) as VoiceCommand["category"][];
+const CATEGORIES = Object.keys(CATEGORY_KEYS) as VoiceCommand["category"][];
 
-export default function CommandsHelp() {
+interface CommandsHelpProps {
+  locale?: Locale;
+}
+
+export default function CommandsHelp({ locale = "fr" }: CommandsHelpProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<VoiceCommand["category"]>("punctuation");
 
@@ -28,7 +33,7 @@ export default function CommandsHelp() {
         className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg bg-primary/10 text-primary hover:bg-primary/20 transition-colors font-medium"
       >
         <span>💡</span>
-        Aide commandes
+        {t(locale, "commands.button")}
         <svg
           className={`w-3 h-3 transition-transform ${isOpen ? "rotate-180" : ""}`}
           fill="none"
@@ -44,16 +49,16 @@ export default function CommandsHelp() {
         <div className="absolute right-0 top-full mt-2 w-96 max-h-[70vh] overflow-hidden rounded-2xl border border-border bg-bg-card shadow-lg z-50 flex flex-col">
           {/* Header */}
           <div className="p-4 border-b border-border">
-            <h3 className="font-semibold text-sm">Commandes vocales françaises</h3>
+            <h3 className="font-semibold text-sm">{t(locale, "commands.title")}</h3>
             <p className="text-xs text-text-muted mt-1">
-              Dites ces mots pendant la dictée pour insérer ponctuation, majuscules et mise en forme.
+              {t(locale, "commands.description")}
             </p>
           </div>
 
           {/* Category tabs */}
           <div className="flex gap-1 p-2 border-b border-border overflow-x-auto">
             {CATEGORIES.map((cat) => {
-              const info = CATEGORY_LABELS[cat];
+              const info = CATEGORY_KEYS[cat];
               return (
                 <button
                   key={cat}
@@ -64,7 +69,7 @@ export default function CommandsHelp() {
                       : "text-text-muted hover:bg-bg"
                   }`}
                 >
-                  {info.emoji} {info.label}
+                  {info.emoji} {t(locale, info.i18nKey)}
                 </button>
               );
             })}
@@ -79,7 +84,7 @@ export default function CommandsHelp() {
               >
                 <div className="flex-1 min-w-0">
                   <div className="text-sm">
-                    Dites : <span className="font-semibold text-primary">« {cmd.command} »</span>
+                    {t(locale, "commands.say")} <span className="font-semibold text-primary">« {cmd.command} »</span>
                   </div>
                   <div className="text-[11px] text-text-muted">{cmd.description}</div>
                 </div>
@@ -90,10 +95,10 @@ export default function CommandsHelp() {
             ))}
           </div>
 
-          {/* Tips */}
+          {/* Tips - content stays in French since it's about French voice commands */}
           <div className="p-3 border-t border-border bg-accent/5">
             <h4 className="text-[11px] font-semibold text-accent mb-1.5">
-              💡 Conseils
+              💡 {t(locale, "commands.tips")}
             </h4>
             <ul className="text-[11px] text-text-muted space-y-1">
               {activeTab === "punctuation" && (

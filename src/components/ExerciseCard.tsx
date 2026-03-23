@@ -1,11 +1,13 @@
 "use client";
 
 import Link from "next/link";
+import { t, type Locale } from "@/lib/i18n";
 import type { Exercise, ExerciseProgress } from "@/lib/types";
 
 interface ExerciseCardProps {
   exercise: Exercise;
   progress?: ExerciseProgress;
+  locale?: Locale;
 }
 
 const LEVEL_COLORS = [
@@ -17,7 +19,7 @@ const LEVEL_COLORS = [
   "bg-error/10 text-error",
 ];
 
-export default function ExerciseCard({ exercise, progress }: ExerciseCardProps) {
+export default function ExerciseCard({ exercise, progress, locale = "fr" }: ExerciseCardProps) {
   const completed = progress && progress.bestAccuracy >= 70;
   const attempted = progress && progress.attempts > 0;
 
@@ -36,7 +38,7 @@ export default function ExerciseCard({ exercise, progress }: ExerciseCardProps) 
             LEVEL_COLORS[exercise.level] || "bg-border text-text-muted"
           }`}
         >
-          Niv. {exercise.level}
+          {t(locale, "exercise.level")} {exercise.level}
         </span>
         {completed && <span className="text-success text-sm">✓</span>}
       </div>
@@ -49,7 +51,7 @@ export default function ExerciseCard({ exercise, progress }: ExerciseCardProps) 
       {attempted && progress ? (
         <div className="flex items-center justify-between text-xs">
           <span className="text-text-muted">
-            {progress.attempts}x essayé{progress.attempts > 1 ? "s" : ""}
+            {progress.attempts}x {progress.attempts > 1 ? t(locale, "exercise.attemptedPlural") : t(locale, "exercise.attempted")}
           </span>
           <span
             className={
@@ -64,7 +66,7 @@ export default function ExerciseCard({ exercise, progress }: ExerciseCardProps) 
           </span>
         </div>
       ) : (
-        <div className="text-xs text-text-muted/50">Pas encore essayé</div>
+        <div className="text-xs text-text-muted/50">{t(locale, "exercise.notAttempted")}</div>
       )}
     </Link>
   );

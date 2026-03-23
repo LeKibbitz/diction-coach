@@ -1,0 +1,93 @@
+[
+  {
+    "id": "son-01-y-u",
+    "category": "sounds",
+    "level": 2,
+    "title": "Tu ou tout ?",
+    "description": "La différence entre [y] et [u] fait la différence entre « tu » et « tout ». Votre micro ne devinera pas.",
+    "referenceText": "Il a vu tout le dessus du dessous. Tu es sûr que tout est pur ?",
+    "hints": [
+      "[y] (tu, vu, sûr, pur) : lèvres arrondies et très avancées, langue en avant",
+      "[u] (tout, dessous) : lèvres arrondies, langue en arrière",
+      "Astuce : partez de [i] et arrondissez les lèvres → vous obtenez [y]"
+    ],
+    "expectedDurationSec": 8,
+    "tags": ["intermédiaire", "voyelles", "paire minimale"]
+  },
+  {
+    "id": "son-02-nasales",
+    "category": "sounds",
+    "level": 2,
+    "title": "Le quatuor nasal",
+    "description": "Quatre voyelles nasales, quatre façons de faire vibrer votre nez. Le micro adore les détails.",
+    "referenceText": "Le bon vin blanc sent le printemps. Un brun a peint trente ronds.",
+    "hints": [
+      "[ɔ̃] (bon, rond) — bouche arrondie, son grave",
+      "[ɛ̃] (vin, printemps, peint) — bouche étirée, son aigu",
+      "[ɑ̃] (blanc, trente, sent) — bouche ouverte, son central",
+      "L'air passe par le nez — posez un doigt sur votre nez, ça doit vibrer"
+    ],
+    "expectedDurationSec": 8,
+    "tags": ["intermédiaire", "voyelles", "nasales"]
+  },
+  {
+    "id": "son-03-ch-j",
+    "category": "sounds",
+    "level": 3,
+    "title": "Chou ou joue ?",
+    "description": "[ʃ] et [ʒ] : l'un souffle, l'autre vibre. La différence entre « cher » et « j'erre ». Subtil, mais crucial.",
+    "referenceText": "Le chat jouait joyeusement sur le chemin en chassant chaque jour de jolies mouches.",
+    "hints": [
+      "[ʃ] (chat, chemin, chassant, chaque) — sourd, comme un chuchotement",
+      "[ʒ] (jouait, joyeusement, jour, jolies) — sonore, les cordes vocales vibrent",
+      "Test : posez la main sur la gorge. [ʒ] vibre, [ʃ] ne vibre pas"
+    ],
+    "expectedDurationSec": 9,
+    "tags": ["avancé", "consonnes", "paire minimale"]
+  },
+  {
+    "id": "son-04-eu-oeu",
+    "category": "sounds",
+    "level": 3,
+    "title": "Peu ou peur ?",
+    "description": "[ø] et [œ] : ouvrez un peu plus la bouche et « jeu » devient « jeune ». La nuance qui change tout.",
+    "referenceText": "Le jeune joueur pleure un peu devant le jeu. Deux sœurs heureuses veulent du beurre.",
+    "hints": [
+      "[ø] (peu, jeu, deux, veulent) — lèvres arrondies, bouche presque fermée",
+      "[œ] (jeune, pleure, sœurs, beurre, heureuses) — lèvres arrondies, bouche plus ouverte",
+      "Règle pratique : [ø] en syllabe ouverte (peu), [œ] en syllabe fermée (peur)"
+    ],
+    "expectedDurationSec": 9,
+    "tags": ["avancé", "voyelles", "paire minimale"]
+  },
+  {
+    "id": "son-05-cocktail-sons",
+    "category": "sounds",
+    "level": 4,
+    "title": "Le cocktail phonétique",
+    "description": "Tous les sons difficiles dans la même phrase. Si votre micro survit à ça, il survivra à tout.",
+    "referenceText": "Ce jeune musicien joue du jazz chaque jeudi soir dans un sombre salon plein de brume et de parfum.",
+    "hints": [
+      "[ʒ]/[ʃ] : « jeune », « joue », « jazz », « chaque », « jeudi »",
+      "Nasales : « un » [œ̃], « sombre » [ɔ̃], « plein » [ɛ̃], « parfum » [œ̃], « dans » [ɑ̃]",
+      "Gardez le rythme régulier même sur les sons difficiles — pas de ralentissement"
+    ],
+    "expectedDurationSec": 10,
+    "tags": ["avancé", "mixte", "tous-sons"]
+  },
+  {
+    "id": "son-06-discours-continu",
+    "category": "sounds",
+    "level": 4,
+    "title": "Le discours du phonéticien",
+    "description": "Un texte naturel avec tous les pièges sonores. Le niveau final. Après ça, même les Toulousains vous comprendront.",
+    "referenceText": "Chaque matin, le jeune boulanger brun ouvre sa boutique parfumée. Tout le quartier accourt pour acheter du pain chaud, des brioches blondes et quelques chaussons aux pommes bien dorés.",
+    "hints": [
+      "Voyelles nasales en série : « matin » [ɛ̃], « brun » [œ̃], « parfumée » [œ̃], « pain » [ɛ̃], « blondes » [ɔ̃], « bien » [ɛ̃]",
+      "[y]/[u] : « boulanger » [u], « boutique » [u], « tout » [u], « pour » [u], « accourt » [u]",
+      "Enchaînez naturellement — ne découpez pas la phrase pour articuler chaque son"
+    ],
+    "expectedDurationSec": 14,
+    "tags": ["avancé", "mixte", "discours", "tous-sons"]
+  }
+]
