@@ -422,42 +422,53 @@ export default function HomePage() {
               </div>
             )}
 
-            {/* Extrapolation */}
+            {/* Time saved vs typing profiles */}
             {(() => {
-              const tw = typingResult.wpm || 1;
               const dw = activeResult.wpm || 1;
-              const emailTyping = EMAIL_WORD_COUNT / tw;
-              const emailDict = EMAIL_WORD_COUNT / dw;
-              const savedPerDay = (emailTyping - emailDict) * EMAILS_PER_DAY;
-              const savedPerYear = savedPerDay * 230;
-              const faster = dw > tw;
+              const profiles = [
+                { labelKey: "benchmarks.beginner", wpm: 35, emoji: "🐢" },
+                { labelKey: "benchmarks.average", wpm: 65, emoji: "⌨️" },
+                { labelKey: "benchmarks.fast", wpm: 100, emoji: "⚡" },
+                ...(typingResult.wpm > 0 ? [{ labelKey: "results.yourTyping", wpm: typingResult.wpm, emoji: "👤" }] : []),
+              ];
 
-              return faster ? (
+              return (
                 <div className="p-4 rounded-xl border border-border bg-bg-card">
-                  <div className="text-center mb-3">
-                    <span className="text-sm text-text-muted">{t(locale, "results.extrapolation.faster")} </span>
-                    <span className="text-2xl font-bold text-success">{(dw / tw).toFixed(1)}x</span>
-                    <span className="text-sm text-text-muted"> {t(locale, "results.extrapolation.times")}</span>
-                  </div>
-                  <div className="grid grid-cols-3 gap-2 text-center">
-                    <div className="p-2 rounded-lg bg-bg">
-                      <div className="text-sm font-bold text-success">+{formatMinutes(savedPerDay)}</div>
-                      <div className="text-[10px] text-text-muted">{t(locale, "results.extrapolation.perDay")}</div>
-                    </div>
-                    <div className="p-2 rounded-lg bg-bg">
-                      <div className="text-sm font-bold text-success">+{formatMinutes(savedPerDay * 22)}</div>
-                      <div className="text-[10px] text-text-muted">{t(locale, "results.extrapolation.perMonth")}</div>
-                    </div>
-                    <div className="p-2 rounded-lg bg-bg">
-                      <div className="text-sm font-bold text-success">+{formatMinutes(savedPerYear)}</div>
-                      <div className="text-[10px] text-text-muted">{t(locale, "results.extrapolation.perYear")}</div>
-                    </div>
+                  <h3 className="text-xs font-semibold text-text-muted mb-3">{t(locale, "results.timeSaved")}</h3>
+                  <div className="space-y-2">
+                    {profiles.map((p) => {
+                      const emailTyping = EMAIL_WORD_COUNT / p.wpm;
+                      const emailDict = EMAIL_WORD_COUNT / dw;
+                      const savedPerEmail = emailTyping - emailDict; // minutes
+                      const savedPerDay = savedPerEmail * EMAILS_PER_DAY;
+                      const savedPerYear = savedPerDay * 230;
+                      const faster = dw > p.wpm;
+
+                      return (
+                        <div key={p.labelKey} className={`flex items-center gap-3 p-2.5 rounded-lg ${p.labelKey === "results.yourTyping" ? "bg-primary/5 border border-primary/20" : "bg-bg"}`}>
+                          <span className="text-lg shrink-0">{p.emoji}</span>
+                          <div className="flex-1 min-w-0">
+                            <div className="text-xs font-medium">{t(locale, p.labelKey)} <span className="text-text-muted font-normal">({p.wpm} {t(locale, "stats.wpm")})</span></div>
+                          </div>
+                          <div className="text-right shrink-0">
+                            {faster ? (
+                              <div>
+                                <div className="text-sm font-bold text-success">+{formatMinutes(savedPerDay)}<span className="text-[10px] font-normal text-text-muted">/{t(locale, "results.extrapolation.day")}</span></div>
+                                <div className="text-[10px] text-text-muted">+{formatMinutes(savedPerYear)}/{t(locale, "results.extrapolation.year")}</div>
+                              </div>
+                            ) : (
+                              <div className="text-xs text-text-muted">—</div>
+                            )}
+                          </div>
+                        </div>
+                      );
+                    })}
                   </div>
                   <p className="text-[10px] text-text-muted text-center mt-2">
                     {t(locale, "results.extrapolation.note").replace("{0}", String(EMAILS_PER_DAY))}
                   </p>
                 </div>
-              ) : null;
+              );
             })()}
 
             {/* Diff view */}
