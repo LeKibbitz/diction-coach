@@ -48,6 +48,15 @@ export function useSpeechRecognition(lang: string = "fr-FR") {
         }
       },
       onEnd: () => {
+        // Web Speech API stops itself after silence — auto-restart if still supposed to be listening
+        if (recognitionRef.current) {
+          try {
+            recognitionRef.current.start();
+            return;
+          } catch {
+            // Already stopped or aborted — fall through
+          }
+        }
         setIsListening(false);
         setInterimTranscript("");
       },
@@ -70,7 +79,9 @@ export function useSpeechRecognition(lang: string = "fr-FR") {
   }, [isSupported, lang]);
 
   const stop = useCallback(() => {
-    recognitionRef.current?.stop();
+    const rec = recognitionRef.current;
+    recognitionRef.current = null; // prevent auto-restart in onEnd
+    rec?.stop();
     setIsListening(false);
   }, []);
 

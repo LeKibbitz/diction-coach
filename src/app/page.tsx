@@ -195,10 +195,11 @@ export default function HomePage() {
 
       // Smart BMC check (only if no badge is showing)
       if (newBadges.length === 0) {
-        const prevTests = await getSpeedTests(userId);
+        const allTests = await getSpeedTests(userId);
+        // allTests includes the test we just saved above
         const bmcTrigger = shouldShowBmc(
-          prevTests.length,
-          accuracy,
+          allTests.length,
+          Math.max(accuracy, previousBest?.accuracy || 0),
           mockStats.currentStreak
         );
         if (bmcTrigger) {

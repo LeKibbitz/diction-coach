@@ -46,8 +46,8 @@ export function shouldShowBmc(
 ): BmcContext | null {
   const dismissed = getDismissed();
 
-  // Trigger 1: 3rd session — user is engaged
-  if (sessionCount === 3 && !dismissed.has("engagement-3")) {
+  // Trigger 1: 3+ sessions — user is engaged
+  if (sessionCount >= 3 && !dismissed.has("engagement")) {
     return { reason: "engagement", sessionCount };
   }
 
@@ -62,8 +62,9 @@ export function shouldShowBmc(
   }
 
   // Trigger 4: Every 10 sessions (10, 20, 30...) — periodic reminder
-  if (sessionCount > 0 && sessionCount % 10 === 0) {
-    const key = `milestone-${sessionCount}`;
+  if (sessionCount >= 10 && sessionCount % 10 < 3) {
+    const decade = Math.floor(sessionCount / 10) * 10;
+    const key = `milestone-${decade}`;
     if (!dismissed.has(key)) {
       return { reason: "milestone", sessionCount };
     }
@@ -75,7 +76,7 @@ export function shouldShowBmc(
 export function dismissBmc(context: BmcContext): void {
   switch (context.reason) {
     case "engagement":
-      addDismissed(`engagement-${context.sessionCount}`);
+      addDismissed("engagement");
       break;
     case "achievement":
       addDismissed("achievement-90");
@@ -83,9 +84,11 @@ export function dismissBmc(context: BmcContext): void {
     case "streak":
       addDismissed("streak-5");
       break;
-    case "milestone":
-      addDismissed(`milestone-${context.sessionCount}`);
+    case "milestone": {
+      const decade = Math.floor(context.sessionCount / 10) * 10;
+      addDismissed(`milestone-${decade}`);
       break;
+    }
   }
 }
 
