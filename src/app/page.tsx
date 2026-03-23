@@ -22,7 +22,9 @@ import ThemeToggle from "@/components/ThemeToggle";
 import LocaleSelector from "@/components/LocaleSelector";
 import DiffView from "@/components/DiffView";
 import { t, getLocale, setLocale as saveLocale, REFERENCE_TEXTS, LOCALES, type Locale } from "@/lib/i18n";
-import type { SpeedTestResult, DiffSegment } from "@/lib/types";
+import { checkNewBadges, type Badge } from "@/lib/badges";
+import BadgeCelebration from "@/components/BadgeCelebration";
+import type { SpeedTestResult, DiffSegment, UserStats } from "@/lib/types";
 
 const EMAIL_WORD_COUNT = 150;
 const EMAILS_PER_DAY = 10;
@@ -63,6 +65,8 @@ export default function HomePage() {
   const [initialized, setInitialized] = useState(false);
   const [previousBest, setPreviousBest] = useState<{ wpm: number; accuracy: number } | null>(null);
   const [locale, setLocaleState] = useState<Locale>("fr");
+  const [celebrateBadge, setCelebrateBadge] = useState<Badge | null>(null);
+  const earnedBadgeIdsRef = useRef<Set<string>>(new Set());
   const dictStartRef = useRef(0);
 
   const currentText = REFERENCE_TEXTS[locale];
@@ -172,13 +176,28 @@ export default function HomePage() {
 
       if (isRetest) {
         setRetestResult(result);
-        setStep("results");
       } else {
         setDictationResult(result);
-        setStep("results");
+      }
+      setStep("results");
+
+      // Check for new badges
+      const mockStats: UserStats = {
+        totalSessions: 1,
+        totalExercisesCompleted: 0,
+        bestAccuracy: accuracy,
+        bestWpm: wpm,
+        averageAccuracy: accuracy,
+        currentStreak: 1,
+        totalPracticeDays: 1,
+      };
+      const newBadges = checkNewBadges(mockStats, earnedBadgeIdsRef.current);
+      if (newBadges.length > 0) {
+        earnedBadgeIdsRef.current.add(newBadges[0].id);
+        setTimeout(() => setCelebrateBadge(newBadges[0]), 800);
       }
     },
-    [speech, recorder, userId]
+    [speech, recorder, userId, currentText]
   );
 
   // ─── Reset ───
@@ -532,9 +551,23 @@ export default function HomePage() {
         )}
       </main>
 
-      <footer className="border-t border-border py-4 text-center text-[10px] text-text-muted/50">
-        Diction Coach — {t(locale, "app.footer")}
+      <footer className="border-t border-border py-4 text-center">
+        <Link href="/story" className="text-[10px] text-text-muted/50 hover:text-primary transition-colors">
+          🤧 Comment tout a commencé
+        </Link>
+        <span className="text-[10px] text-text-muted/30 mx-2">•</span>
+        <span className="text-[10px] text-text-muted/50">
+          {t(locale, "app.footer")}
+        </span>
       </footer>
+
+      {/* Badge celebration overlay */}
+      {celebrateBadge && (
+        <BadgeCelebration
+          badge={celebrateBadge}
+          onDismiss={() => setCelebrateBadge(null)}
+        />
+      )}
     </div>
   );
 }

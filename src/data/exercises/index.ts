@@ -3,12 +3,14 @@ import phrasesSimples from "./phrases-simples.json";
 import ponctuation from "./ponctuation.json";
 import commandes from "./commandes.json";
 import vitesse from "./vitesse.json";
+import defis from "./defis.json";
 
 const allExercises: Exercise[] = [
   ...(phrasesSimples as Exercise[]),
   ...(ponctuation as Exercise[]),
   ...(commandes as Exercise[]),
   ...(vitesse as Exercise[]),
+  ...(defis as Exercise[]),
 ];
 
 export function getAllExercises(): Exercise[] {

@@ -1,0 +1,33 @@
+[
+  {
+    "id": "df-01-rapido-caunes",
+    "category": "speed",
+    "level": 5,
+    "title": "Le défi Rapido — Antoine de Caunes",
+    "description": "30 secondes. 90 mots. Le rythme d'un présentateur qui a bu 12 expressos. Bonne chance.",
+    "referenceText": "Bonsoir, Rapido deuxième génération. Septième édition consacrée aux musiques de films, la musique prise ici comme un support de l'image, ou bien l'inverse parfois, remarquez, quand il s'agit de films dits musicaux, musicaux tels que le dernier Prince par exemple. Bref, de l'image et de la musique comme s'il en pleuvait pour cette septième édition de Rapido, plus la surprise que je vous annonçais la semaine dernière, autrement dit les premières images diffusées en France du Hall of Fame, une sorte de genre de César distribués aux États-Unis par le gratin du rock au gratin de l'audiovisuel. L'autocongratulation, une fois passée, laisse le souvenir d'une galerie de portraits plus grands que nature. La vie est un film, le rock et sa bande-son, c'est cela que célébrait à New York le Hall of Fame.",
+    "hints": [
+      "Antoine de Caunes dit tout ça en 30 secondes. Vous, prenez votre temps.",
+      "Articulez « autocongratulation » — c'est le boss final du mot.",
+      "« Hall of Fame » en français dans le texte — prononcez à l'anglaise.",
+      "Vidéo originale : youtube.com/watch?v=LZJ2zS7rzZA (1:00–1:30)"
+    ],
+    "expectedDurationSec": 60,
+    "tags": ["vitesse", "avancé", "fun", "défi"]
+  },
+  {
+    "id": "df-02-enrhume",
+    "category": "phrases",
+    "level": 3,
+    "title": "Le test du rhume",
+    "description": "Dictez ce texte normalement. Si votre score est bas, c'est peut-être la grippe. Ou peut-être pas.",
+    "referenceText": "Aujourd'hui je ne me sens pas très bien, j'ai le nez bouché et la gorge un peu irritée. Malgré tout, je vais essayer de dicter ce texte le plus clairement possible. La reconnaissance vocale ne fait pas de différence entre un rhume et une mauvaise diction.",
+    "hints": [
+      "Ce texte sert de référence : dictez-le en bonne santé, puis re-dictez-le quand vous êtes malade.",
+      "Comparez les scores — vous verrez l'impact d'un simple rhume sur votre diction.",
+      "Spoiler : le micro n'est toujours pas en cause."
+    ],
+    "expectedDurationSec": 25,
+    "tags": ["intermédiaire", "fun", "diagnostic"]
+  }
+]
