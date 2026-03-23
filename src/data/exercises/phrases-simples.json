@@ -1,0 +1,112 @@
+[
+  {
+    "id": "ps-01-bonjour",
+    "category": "phrases",
+    "level": 1,
+    "title": "Les salutations",
+    "description": "On commence doucement. Si votre micro ne comprend pas « bonjour », c'est grave.",
+    "referenceText": "Bonjour, comment allez-vous aujourd'hui ?",
+    "hints": ["Articulez chaque syllabe", "Parlez à volume normal"],
+    "expectedDurationSec": 5,
+    "tags": ["débutant"]
+  },
+  {
+    "id": "ps-02-meteo",
+    "category": "phrases",
+    "level": 1,
+    "title": "La météo",
+    "description": "Le sujet de conversation préféré des Français. Votre micro en a l'habitude.",
+    "referenceText": "Il fait beau aujourd'hui, mais il va pleuvoir demain.",
+    "hints": ["Ne mangez pas la fin des mots"],
+    "expectedDurationSec": 6,
+    "tags": ["débutant"]
+  },
+  {
+    "id": "ps-03-cafe",
+    "category": "phrases",
+    "level": 1,
+    "title": "Au café",
+    "description": "Commande basique. Si le barista vous comprend, le micro aussi.",
+    "referenceText": "Je voudrais un café crème et un croissant, s'il vous plaît.",
+    "hints": ["Le « s'il vous plaît » est important pour la politesse ET la diction"],
+    "expectedDurationSec": 7,
+    "tags": ["débutant"]
+  },
+  {
+    "id": "ps-04-presentation",
+    "category": "phrases",
+    "level": 1,
+    "title": "Se présenter",
+    "description": "Imaginez que vous parlez à un robot très littéral. C'est exactement ce que vous faites.",
+    "referenceText": "Je m'appelle Thomas et j'habite à Nancy.",
+    "hints": ["Les noms propres doivent être très clairs"],
+    "expectedDurationSec": 5,
+    "tags": ["débutant"]
+  },
+  {
+    "id": "ps-05-telephone",
+    "category": "phrases",
+    "level": 1,
+    "title": "Au téléphone",
+    "description": "Même votre grand-mère vous comprend au téléphone. Le micro devrait aussi.",
+    "referenceText": "Allô, est-ce que je peux parler à Monsieur Dupont ?",
+    "hints": ["Détachez bien les syllabes de « Monsieur »"],
+    "expectedDurationSec": 6,
+    "tags": ["débutant"]
+  },
+  {
+    "id": "ps-06-courses",
+    "category": "phrases",
+    "level": 2,
+    "title": "Liste de courses",
+    "description": "Votre frigo est vide et votre diction aussi ? Prouvez le contraire.",
+    "referenceText": "Il faut acheter du pain, du beurre, trois pommes et une bouteille de lait.",
+    "hints": ["Les chiffres doivent être prononcés distinctement"],
+    "expectedDurationSec": 8,
+    "tags": ["débutant", "chiffres"]
+  },
+  {
+    "id": "ps-07-rendez-vous",
+    "category": "phrases",
+    "level": 2,
+    "title": "Prendre rendez-vous",
+    "description": "Les dates et les heures : le cauchemar de la reconnaissance vocale. Ou pas.",
+    "referenceText": "J'ai rendez-vous chez le médecin jeudi prochain à quatorze heures trente.",
+    "hints": ["Dites les heures en toutes lettres, pas en chiffres"],
+    "expectedDurationSec": 8,
+    "tags": ["débutant", "dates"]
+  },
+  {
+    "id": "ps-08-vacances",
+    "category": "phrases",
+    "level": 2,
+    "title": "Projet de vacances",
+    "description": "Deux phrases d'affilée. Le micro ne prend pas de vacances, lui.",
+    "referenceText": "Cet été, nous partons en Bretagne pendant deux semaines. Les enfants sont très contents.",
+    "hints": ["Marquez une légère pause entre les deux phrases"],
+    "expectedDurationSec": 10,
+    "tags": ["intermédiaire"]
+  },
+  {
+    "id": "ps-09-recette",
+    "category": "phrases",
+    "level": 2,
+    "title": "La recette",
+    "description": "Instructions claires pour votre micro. Comme pour un gâteau, la précision compte.",
+    "referenceText": "Mélangez deux cents grammes de farine avec trois œufs et cent millilitres de lait.",
+    "hints": ["Les mesures en toutes lettres", "Articulez « œufs » — c'est un piège classique"],
+    "expectedDurationSec": 9,
+    "tags": ["intermédiaire", "chiffres"]
+  },
+  {
+    "id": "ps-10-travail",
+    "category": "phrases",
+    "level": 2,
+    "title": "Au bureau",
+    "description": "Le vocabulaire professionnel. Votre micro ne jugera pas vos réunions inutiles.",
+    "referenceText": "La réunion de ce matin a été reportée à demain après-midi. Merci de prévenir toute l'équipe.",
+    "hints": ["« Reportée » et « prévenir » — chaque syllabe compte"],
+    "expectedDurationSec": 10,
+    "tags": ["intermédiaire"]
+  }
+]

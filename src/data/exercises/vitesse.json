@@ -1,0 +1,46 @@
+[
+  {
+    "id": "vt-01-sprint",
+    "category": "speed",
+    "level": 3,
+    "title": "Sprint 30 secondes",
+    "description": "Trente secondes chrono. Parlez vite, mais parlez bien.",
+    "referenceText": "Le petit chat gris dort paisiblement sur le coussin bleu du salon pendant que la pluie tombe doucement dehors.",
+    "hints": ["Vitesse ET précision — les deux comptent", "Ne sacrifiez pas l'articulation pour la vitesse"],
+    "expectedDurationSec": 30,
+    "tags": ["vitesse", "intermédiaire"]
+  },
+  {
+    "id": "vt-02-marathon",
+    "category": "speed",
+    "level": 4,
+    "title": "Marathon 60 secondes",
+    "description": "Une minute complète de dictée. Votre mâchoire va travailler.",
+    "referenceText": "La technologie de reconnaissance vocale a fait des progrès considérables ces dernières années. Les algorithmes modernes peuvent comprendre la parole naturelle avec une précision remarquable. Mais la qualité du résultat dépend en grande partie de la clarté de l'élocution du locuteur. Une bonne diction reste donc essentielle pour obtenir un texte fidèle à ce que l'on souhaite dicter.",
+    "hints": ["Respirez naturellement", "Maintenez un rythme régulier"],
+    "expectedDurationSec": 60,
+    "tags": ["vitesse", "avancé"]
+  },
+  {
+    "id": "vt-03-virelangue",
+    "category": "speed",
+    "level": 5,
+    "title": "Les virelangues",
+    "description": "Si votre micro comprend ça, vous êtes un champion de la diction.",
+    "referenceText": "Les chaussettes de l'archiduchesse sont-elles sèches ou archi-sèches ? Un chasseur sachant chasser doit savoir chasser sans son chien.",
+    "hints": ["Allez-y lentement au début", "C'est un exercice de précision, pas de vitesse"],
+    "expectedDurationSec": 15,
+    "tags": ["vitesse", "avancé", "fun"]
+  },
+  {
+    "id": "vt-04-nombres",
+    "category": "speed",
+    "level": 3,
+    "title": "La dictée de nombres",
+    "description": "Zéro, un, deux... Les chiffres, c'est la bête noire de la dictée vocale.",
+    "referenceText": "Le train part à quatorze heures vingt-cinq. Il y a trois cent cinquante passagers. Le billet coûte quarante-sept euros et quatre-vingt-dix centimes.",
+    "hints": ["Tous les nombres en toutes lettres", "« Quatre-vingt-dix » — articulez chaque partie"],
+    "expectedDurationSec": 15,
+    "tags": ["vitesse", "chiffres", "intermédiaire"]
+  }
+]

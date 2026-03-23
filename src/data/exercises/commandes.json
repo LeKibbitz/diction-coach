@@ -1,0 +1,112 @@
+[
+  {
+    "id": "cm-01-a-la-ligne",
+    "category": "commands",
+    "level": 1,
+    "title": "À la ligne",
+    "description": "Appuyez sur Entrée... avec votre voix. C'est possible et c'est magique.",
+    "referenceText": "Première ligne.\nDeuxième ligne.\nTroisième ligne.",
+    "hints": ["Dites « à la ligne » pour un retour à la ligne", "C'est comme appuyer sur Entrée"],
+    "expectedDurationSec": 8,
+    "tags": ["commandes", "débutant"]
+  },
+  {
+    "id": "cm-02-nouveau-paragraphe",
+    "category": "commands",
+    "level": 1,
+    "title": "Nouveau paragraphe",
+    "description": "Un paragraphe, c'est deux retours à la ligne. En une seule commande.",
+    "referenceText": "Premier paragraphe avec une idée.\n\nDeuxième paragraphe avec une autre idée.",
+    "hints": ["« Nouveau paragraphe » = double retour à la ligne"],
+    "expectedDurationSec": 10,
+    "tags": ["commandes", "débutant"]
+  },
+  {
+    "id": "cm-03-email",
+    "category": "commands",
+    "level": 2,
+    "title": "L'e-mail structuré",
+    "description": "Dictez un e-mail complet avec des retours à la ligne. Votre collègue n'y verra que du feu.",
+    "referenceText": "Bonjour,\n\nJe vous confirme notre rendez-vous de demain à dix heures.\n\nCordialement,\nThomas",
+    "hints": ["Utilisez « à la ligne » et « nouveau paragraphe » pour structurer"],
+    "expectedDurationSec": 15,
+    "tags": ["commandes", "intermédiaire"]
+  },
+  {
+    "id": "cm-04-adresse",
+    "category": "commands",
+    "level": 2,
+    "title": "L'adresse postale",
+    "description": "Chaque ligne de l'adresse doit être sur sa propre ligne. Logique, non ?",
+    "referenceText": "Monsieur Thomas Joannes\n12 rue de la Paix\n54000 Nancy\nFrance",
+    "hints": ["« À la ligne » entre chaque élément de l'adresse", "Dites les chiffres clairement"],
+    "expectedDurationSec": 12,
+    "tags": ["commandes", "intermédiaire", "chiffres"]
+  },
+  {
+    "id": "cm-05-liste",
+    "category": "commands",
+    "level": 2,
+    "title": "La liste",
+    "description": "Dicter une liste point par point. Le micro adore les listes.",
+    "referenceText": "Courses :\n- Pain\n- Beurre\n- Fromage\n- Confiture",
+    "hints": ["« Tiret » pour les puces de liste", "« À la ligne » entre chaque élément"],
+    "expectedDurationSec": 12,
+    "tags": ["commandes", "intermédiaire"]
+  },
+  {
+    "id": "cm-06-mix-complet",
+    "category": "commands",
+    "level": 3,
+    "title": "La lettre formelle",
+    "description": "Ponctuation + retours à la ligne + structure. Le test ultime des commandes vocales.",
+    "referenceText": "Madame, Monsieur,\n\nSuite à notre conversation téléphonique, je vous confirme ma candidature pour le poste de développeur.\n\nVeuillez agréer, Madame, Monsieur, l'expression de mes salutations distinguées.\n\nThomas Joannes",
+    "hints": ["Combinez ponctuation et commandes de mise en forme", "Prenez votre temps — la clarté prime"],
+    "expectedDurationSec": 25,
+    "tags": ["commandes", "avancé"]
+  },
+  {
+    "id": "cm-07-majuscules",
+    "category": "commands",
+    "level": 2,
+    "title": "Les majuscules",
+    "description": "URGENT ! Apprenez à crier... poliment. Les majuscules se dictent aussi.",
+    "referenceText": "Objet : URGENT - Réunion reportée.\nLa réunion de ce matin est ANNULÉE.",
+    "hints": ["Dites « tout en majuscules urgent » pour obtenir URGENT", "Dites « tout en majuscules annulée » pour ANNULÉE", "La majuscule après un point est automatique"],
+    "expectedDurationSec": 12,
+    "tags": ["commandes", "majuscules", "intermédiaire"]
+  },
+  {
+    "id": "cm-08-parentheses-guillemets",
+    "category": "commands",
+    "level": 2,
+    "title": "Parenthèses et guillemets",
+    "description": "Ouvrir, fermer, ouvrir, fermer... C'est comme respirer, mais avec la bouche.",
+    "referenceText": "Il a dit « je reviens » mais personne n'y croyait (surtout pas moi).",
+    "hints": ["« Ouvrir les guillemets » puis « fermer les guillemets »", "« Parenthèse ouvrante » puis « parenthèse fermante »", "N'oubliez pas de refermer !"],
+    "expectedDurationSec": 12,
+    "tags": ["commandes", "ponctuation", "intermédiaire"]
+  },
+  {
+    "id": "cm-09-bullet-points",
+    "category": "commands",
+    "level": 2,
+    "title": "Les listes à puces",
+    "description": "Vos slides PowerPoint seront jaloux de vos listes dictées.",
+    "referenceText": "Avantages de la dictée :\n• Plus rapide que la frappe\n• Moins de fatigue des doigts\n• Meilleur pour les idées longues",
+    "hints": ["Dites « puce » pour insérer un bullet point", "Chaque « puce » fait aussi un retour à la ligne"],
+    "expectedDurationSec": 15,
+    "tags": ["commandes", "listes", "intermédiaire"]
+  },
+  {
+    "id": "cm-10-email-pro",
+    "category": "commands",
+    "level": 3,
+    "title": "L'e-mail professionnel complet",
+    "description": "Majuscules, parenthèses, guillemets, structure. Le boss final des commandes.",
+    "referenceText": "Objet : Compte rendu - Réunion du 15 mars\n\nBonjour,\n\nSuite à notre réunion (voir notes ci-jointes), voici les actions décidées :\n\n• Thomas : finaliser le rapport\n• Marie : contacter le client\n• Jean : préparer la présentation\n\nMerci de confirmer avant vendredi.\n\nCordialement,\nThomas JOANNES\nChef de projet",
+    "hints": ["Combinez tout : à la ligne, puce, majuscule, deux-points, parenthèses", "Allez-y étape par étape, une phrase à la fois", "Utilisez « tout en majuscules joannes » pour JOANNES"],
+    "expectedDurationSec": 40,
+    "tags": ["commandes", "avancé", "majuscules", "listes"]
+  }
+]

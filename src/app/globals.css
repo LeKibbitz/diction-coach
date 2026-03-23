@@ -1,0 +1,75 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme inline {
+  --color-primary: #7C3AED;
+  --color-primary-light: #8B5CF6;
+  --color-primary-dark: #5B21B6;
+  --color-accent: #F59E0B;
+  --color-accent-light: #FBBF24;
+  --color-success: #10B981;
+  --color-success-light: #34D399;
+  --color-error: #F43F5E;
+  --color-error-light: #FB7185;
+  --color-warning: #F97316;
+  --color-bg: #0C0A09;
+  --color-bg-card: #1C1917;
+  --color-text: #FAFAF9;
+  --color-text-muted: #A8A29E;
+  --color-border: #292524;
+  --font-sans: 'Geist', system-ui, -apple-system, sans-serif;
+  --font-mono: 'Geist Mono', ui-monospace, monospace;
+}
+
+/* Light mode overrides */
+:root:not(.dark) {
+  --color-primary: #5B21B6;
+  --color-primary-light: #7C3AED;
+  --color-primary-dark: #4C1D95;
+  --color-bg: #FAFAF9;
+  --color-bg-card: #FFFFFF;
+  --color-text: #1C1917;
+  --color-text-muted: #78716C;
+  --color-border: #E7E5E4;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--color-bg);
+  color: var(--color-text);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Score animation */
+@keyframes score-reveal {
+  0% { transform: scale(0.5); opacity: 0; }
+  60% { transform: scale(1.15); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.animate-score {
+  animation: score-reveal 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* Countdown pulse */
+@keyframes countdown-pulse {
+  0% { transform: scale(1); opacity: 1; }
+  100% { transform: scale(2); opacity: 0; }
+}
+
+.animate-countdown {
+  animation: countdown-pulse 1s ease-out forwards;
+}
+
+/* Waveform shimmer for loading state */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.animate-shimmer {
+  background: linear-gradient(90deg, var(--color-border) 25%, var(--color-bg) 50%, var(--color-border) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
