@@ -20,7 +20,9 @@ const LEVEL_COLORS = [
 ];
 
 export default function ExerciseCard({ exercise, progress, locale = "fr" }: ExerciseCardProps) {
-  const completed = progress && progress.bestAccuracy >= 70;
+  // Validation threshold adapts to exercise level: L1=70%, L2=65%, L3=60%, L4=55%, L5=50%
+  const threshold = Math.max(50, 75 - exercise.level * 5);
+  const completed = progress && progress.bestAccuracy >= threshold;
   const attempted = progress && progress.attempts > 0;
 
   return (

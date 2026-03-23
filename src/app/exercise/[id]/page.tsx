@@ -13,6 +13,9 @@ import ScoreDisplay from "@/components/ScoreDisplay";
 import CommandsHelp from "@/components/CommandsHelp";
 import LiveTranscript from "@/components/LiveTranscript";
 import { t, getLocale, type Locale } from "@/lib/i18n";
+import BmcPrompt from "@/components/BmcPrompt";
+import { shouldShowBmc, type BmcContext } from "@/hooks/useBmcTrigger";
+import { getRecentSessions } from "@/lib/db";
 import type { UserProfile } from "@/lib/types";
 
 export default function ExercisePage({
@@ -81,6 +84,7 @@ function ExerciseEngine({
   const speech = useSpeechRecognition("fr-FR");
   const recorder = useMediaRecorder();
   const session = useExerciseSession(exercise, userId);
+  const [bmcContext, setBmcContext] = useState<BmcContext | null>(null);
 
   const handleStart = useCallback(() => {
     session.startCountdown(async () => {
@@ -102,6 +106,14 @@ function ExerciseEngine({
       recorder.audioBlob || undefined,
       recorder.getDuration()
     );
+
+    // Smart BMC check after exercise completion
+    const allSessions = await getRecentSessions(100);
+    const bestAcc = allSessions.length > 0 ? Math.max(...allSessions.map((s) => s.accuracy)) : 0;
+    const trigger = shouldShowBmc(allSessions.length, bestAcc, 1);
+    if (trigger) {
+      setTimeout(() => setBmcContext(trigger), 1500);
+    }
   }, [speech, recorder, session]);
 
   // ─── Prep Phase ───
@@ -342,6 +354,15 @@ function ExerciseEngine({
                   {t(locale, "nav.exercises")}
                 </button>
               </div>
+
+              {/* Smart BMC prompt */}
+              {bmcContext && (
+                <BmcPrompt
+                  context={bmcContext}
+                  locale={locale}
+                  onDismiss={() => setBmcContext(null)}
+                />
+              )}
             </div>
           </div>
         </div>
