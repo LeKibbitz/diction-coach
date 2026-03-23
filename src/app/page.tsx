@@ -19,16 +19,15 @@ import {
 import CommandsHelp from "@/components/CommandsHelp";
 import LiveTranscript from "@/components/LiveTranscript";
 import ThemeToggle from "@/components/ThemeToggle";
+import LocaleSelector from "@/components/LocaleSelector";
 import DiffView from "@/components/DiffView";
+import { t, getLocale, setLocale as saveLocale, REFERENCE_TEXTS, LOCALES, type Locale } from "@/lib/i18n";
 import type { SpeedTestResult, DiffSegment } from "@/lib/types";
-
-const DEFAULT_TEXT =
-  "La reconnaissance vocale est un outil formidable quand on sait bien l'utiliser. Avec un peu de pratique, on peut dicter beaucoup plus vite qu'on ne tape au clavier.";
 
 const EMAIL_WORD_COUNT = 150;
 const EMAILS_PER_DAY = 10;
 
-const WPM_BENCHMARKS = [
+const WPM_BENCHMARKS: { label: string; wpm: number; color: string }[] = [
   { label: "Débutant clavier", wpm: 35, color: "bg-text-muted/30" },
   { label: "Frappe moyenne", wpm: 65, color: "bg-accent/40" },
   { label: "Frappe rapide", wpm: 100, color: "bg-accent/70" },
@@ -63,9 +62,25 @@ export default function HomePage() {
   const [dictating, setDictating] = useState(false);
   const [initialized, setInitialized] = useState(false);
   const [previousBest, setPreviousBest] = useState<{ wpm: number; accuracy: number } | null>(null);
+  const [locale, setLocaleState] = useState<Locale>("fr");
   const dictStartRef = useRef(0);
 
-  const speech = useSpeechRecognition("fr-FR");
+  const currentText = REFERENCE_TEXTS[locale];
+  const speechCode = LOCALES.find((l) => l.id === locale)?.speechCode || "fr-FR";
+
+  const handleLocaleChange = useCallback((l: Locale) => {
+    setLocaleState(l);
+    saveLocale(l);
+    // Reset if in progress
+    if (step !== "results") {
+      setStep("typing");
+      setTypingResult(null);
+      setDictationResult(null);
+      setRetestResult(null);
+    }
+  }, [step]);
+
+  const speech = useSpeechRecognition(speechCode);
   const recorder = useMediaRecorder();
 
   // Diagnosis & recommendations from dictation result
@@ -83,6 +98,8 @@ export default function HomePage() {
   );
 
   useEffect(() => {
+    setLocaleState(getLocale());
+
     getUser().then(async (u) => {
       if (!u || !u.onboardingComplete) {
         router.push("/onboarding");
@@ -114,7 +131,7 @@ export default function HomePage() {
 
       await saveSpeedTest({
         id: crypto.randomUUID(), userId, mode: "typing",
-        referenceText: DEFAULT_TEXT, inputText, accuracy, wpm,
+        referenceText: currentText, inputText, accuracy, wpm,
         completedAt: Date.now(),
       } satisfies SpeedTestResult);
 
@@ -140,7 +157,7 @@ export default function HomePage() {
 
       const durationSec = (Date.now() - dictStartRef.current) / 1000;
       const recognized = speech.transcript;
-      const diffSegments = compareTexts(DEFAULT_TEXT, recognized);
+      const diffSegments = compareTexts(currentText, recognized);
       const accuracy = calculateAccuracy(diffSegments);
       const wordCount = recognized.trim().split(/\s+/).filter(Boolean).length;
       const wpm = calculateWPM(wordCount, durationSec);
@@ -149,7 +166,7 @@ export default function HomePage() {
 
       await saveSpeedTest({
         id: crypto.randomUUID(), userId, mode: "dictation",
-        referenceText: DEFAULT_TEXT, inputText: recognized, accuracy, wpm,
+        referenceText: currentText, inputText: recognized, accuracy, wpm,
         completedAt: Date.now(),
       } satisfies SpeedTestResult);
 
@@ -195,19 +212,20 @@ export default function HomePage() {
       <header className="border-b border-border bg-bg-card">
         <div className="max-w-2xl mx-auto px-4 py-3 flex items-center justify-between">
           <div>
-            <h1 className="text-lg font-bold tracking-tight">Diction Coach</h1>
+            <h1 className="text-lg font-bold tracking-tight">{t(locale, "app.title")}</h1>
             <p className="text-[11px] text-text-muted">
-              {userName ? `Bonjour ${userName} — ` : ""}Entraînez votre voix, pas votre micro
+              {userName ? `${userName} — ` : ""}{t(locale, "app.subtitle")}
             </p>
           </div>
-          <nav className="flex items-center gap-1.5">
-            <Link href="/exercises" className="text-xs px-2.5 py-1.5 rounded-lg hover:bg-bg transition-colors text-text-muted hover:text-text">
-              📝 Exercices
+          <nav className="flex items-center gap-1">
+            <Link href="/exercises" className="text-xs px-2 py-1.5 rounded-lg hover:bg-bg transition-colors text-text-muted hover:text-text">
+              📝 {t(locale, "nav.exercises")}
             </Link>
-            <Link href="/progress" className="text-xs px-2.5 py-1.5 rounded-lg hover:bg-bg transition-colors text-text-muted hover:text-text">
-              📊 Progrès
+            <Link href="/progress" className="text-xs px-2 py-1.5 rounded-lg hover:bg-bg transition-colors text-text-muted hover:text-text">
+              📊 {t(locale, "nav.progress")}
             </Link>
             <CommandsHelp />
+            <LocaleSelector value={locale} onChange={handleLocaleChange} />
             <ThemeToggle />
           </nav>
         </div>
@@ -252,7 +270,26 @@ export default function HomePage() {
                 <span className="font-medium text-success">{previousBest.accuracy}%</span>
               </div>
             )}
-            <SpeedTest referenceText={DEFAULT_TEXT} onComplete={handleTypingComplete} />
+            <SpeedTest
+              referenceText={currentText}
+              onComplete={handleTypingComplete}
+              tipText={t(locale, "typing.tip")}
+              placeholderText={t(locale, "typing.placeholder")}
+              perfectText={t(locale, "typing.perfect")}
+              labels={{
+                wpm: t(locale, "stats.wpm"),
+                accuracy: t(locale, "stats.accuracy"),
+                time: t(locale, "stats.time"),
+                topSpeed: t(locale, "stats.topSpeed"),
+                avgSpeed: t(locale, "stats.avgSpeed"),
+                backspaces: t(locale, "stats.backspaces"),
+                streak: t(locale, "stats.streak"),
+                chars: t(locale, "stats.chars"),
+                pause: t(locale, "controls.pause"),
+                resume: t(locale, "controls.resume"),
+                restart: t(locale, "controls.restart"),
+              }}
+            />
           </div>
         )}
 
@@ -284,7 +321,7 @@ export default function HomePage() {
             </div>
 
             <div className="p-4 rounded-xl bg-bg-card border border-border text-lg leading-relaxed">
-              {DEFAULT_TEXT}
+              {currentText}
             </div>
 
             {(speech.error || recorder.error) && (
@@ -305,7 +342,7 @@ export default function HomePage() {
                     <span className="text-xs text-error font-medium">Enregistrement</span>
                   </div>
                   <div className="text-sm leading-relaxed">
-                    <LiveTranscript referenceText={DEFAULT_TEXT} currentTranscript={speech.transcript} interimText={speech.interimTranscript} />
+                    <LiveTranscript referenceText={currentText} currentTranscript={speech.transcript} interimText={speech.interimTranscript} />
                   </div>
                 </div>
                 <button onClick={() => stopDictation(step === "retest")} className="w-full py-3 rounded-xl bg-error text-white font-semibold hover:bg-error-light transition-colors">
@@ -496,7 +533,7 @@ export default function HomePage() {
       </main>
 
       <footer className="border-t border-border py-4 text-center text-[10px] text-text-muted/50">
-        Diction Coach — Vos données restent sur votre appareil
+        Diction Coach — {t(locale, "app.footer")}
       </footer>
     </div>
   );
