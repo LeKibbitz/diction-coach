@@ -1,0 +1,7 @@
+services:
+  diction-coach:
+    build: .
+    container_name: diction-coach
+    restart: unless-stopped
+    ports:
+      - "3008:3000"
