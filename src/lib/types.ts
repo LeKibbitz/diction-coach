@@ -12,14 +12,9 @@ export interface UserProfile {
 // ─── Exercises ───
 
 export type ExerciseCategory =
-  | "phrases"
-  | "punctuation"
-  | "commands"
-  | "speed"
   | "prosody"
   | "linking"
-  | "sounds"
-  | "freeform";
+  | "sounds";
 
 export interface Exercise {
   id: string;

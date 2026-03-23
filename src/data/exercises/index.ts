@@ -1,19 +1,9 @@
 import type { Exercise, ExerciseCategory } from "@/lib/types";
-import phrasesSimples from "./phrases-simples.json";
-import ponctuation from "./ponctuation.json";
-import commandes from "./commandes.json";
-import vitesse from "./vitesse.json";
-import defis from "./defis.json";
 import prosodie from "./prosodie.json";
 import enchainements from "./enchainements.json";
 import sons from "./sons.json";
 
 const allExercises: Exercise[] = [
-  ...(phrasesSimples as Exercise[]),
-  ...(ponctuation as Exercise[]),
-  ...(commandes as Exercise[]),
-  ...(vitesse as Exercise[]),
-  ...(defis as Exercise[]),
   ...(prosodie as Exercise[]),
   ...(enchainements as Exercise[]),
   ...(sons as Exercise[]),
@@ -41,30 +31,6 @@ export const CATEGORIES: {
   emoji: string;
   descriptionKey: string;
 }[] = [
-  {
-    id: "phrases",
-    labelKey: "category.phrases",
-    emoji: "💬",
-    descriptionKey: "category.phrases.desc",
-  },
-  {
-    id: "punctuation",
-    labelKey: "category.punctuation",
-    emoji: "✍️",
-    descriptionKey: "category.punctuation.desc",
-  },
-  {
-    id: "commands",
-    labelKey: "category.commands",
-    emoji: "⌨️",
-    descriptionKey: "category.commands.desc",
-  },
-  {
-    id: "speed",
-    labelKey: "category.speed",
-    emoji: "⚡",
-    descriptionKey: "category.speed.desc",
-  },
   {
     id: "prosody",
     labelKey: "category.prosody",

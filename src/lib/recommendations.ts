@@ -117,24 +117,24 @@ export function recommendExercises(
 
     switch (diag.type) {
       case "substitution":
-        targetCategories.push("phrases", "prosody", "sounds");
-        targetTags.push("débutant", "intermédiaire", "paire minimale", "rythme");
+        targetCategories.push("prosody", "sounds");
+        targetTags.push("paire minimale", "rythme", "voyelles", "consonnes");
         break;
       case "insertion":
-        targetCategories.push("phrases", "prosody");
-        targetTags.push("intermédiaire", "rythme");
+        targetCategories.push("prosody");
+        targetTags.push("rythme", "régularité", "groupes");
         break;
       case "deletion":
-        targetCategories.push("phrases", "speed", "linking");
-        targetTags.push("débutant", "enchaînement", "liaison");
+        targetCategories.push("linking", "prosody");
+        targetTags.push("enchaînement", "liaison", "fluide");
         break;
       case "punctuation":
-        targetCategories.push("punctuation", "prosody");
-        targetTags.push("ponctuation", "intonation");
+        targetCategories.push("prosody");
+        targetTags.push("intonation", "question");
         break;
       case "command":
-        targetCategories.push("commands");
-        targetTags.push("commandes", "majuscules", "listes");
+        targetCategories.push("prosody");
+        targetTags.push("rythme", "groupes");
         break;
     }
 

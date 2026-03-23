@@ -78,15 +78,15 @@ export const BADGES: Badge[] = [
     tier: "gold",
   },
   {
-    id: "not-the-mic",
+    id: "rhythm-master",
     icon: "🏆",
-    title: "Le micro n'y est pour rien",
-    description: "Compléter tous les exercices de ponctuation",
+    title: "Maître du rythme",
+    description: "Compléter tous les exercices de prosodie",
     followUp:
-      "Vous maîtrisez la ponctuation vocale. Points, virgules, guillemets — tout sort de votre bouche comme d'un clavier. La prochaine fois qu'on vous dira « la dictée ça marche pas », vous saurez quoi répondre.",
+      "Vous maîtrisez le rythme français. L'isosyllabisme, l'accentuation finale, les groupes rythmiques — tout est intégré. Votre diction a maintenant le groove du français natif.",
     check: (s) => {
-      const punctExercises = getAllExercises().filter((e) => e.category === "punctuation");
-      return s.totalExercisesCompleted >= punctExercises.length;
+      const prosodyExercises = getAllExercises().filter((e) => e.category === "prosody");
+      return s.totalExercisesCompleted >= prosodyExercises.length;
     },
     tier: "gold",
   },
@@ -103,13 +103,13 @@ export const BADGES: Badge[] = [
 
   // ─── Legendary ───
   {
-    id: "rapido",
+    id: "phonetician",
     icon: "🎬",
-    title: "Défi Rapido",
-    description: "Compléter le défi Antoine de Caunes avec 70%+ de précision",
+    title: "Phonéticien certifié",
+    description: "Compléter tous les exercices de sons avec 80%+ de précision",
     followUp:
-      "Vous avez relevé le défi Rapido ! 90 mots en 30 secondes, c'est le rythme d'un présentateur TV sous caféine. Antoine de Caunes serait fier. Ou inquiet.",
-    check: (s) => s.bestAccuracy >= 70 && s.totalSessions >= 1, // simplified check
+      "Nasales, [y]/[u], [ʃ]/[ʒ] — vous distinguez et produisez chaque son du français. Michel Billières et l'équipe Fonetix seraient fiers de vous.",
+    check: (s) => s.bestAccuracy >= 80 && s.totalExercisesCompleted >= 6,
     tier: "legendary",
   },
   {
