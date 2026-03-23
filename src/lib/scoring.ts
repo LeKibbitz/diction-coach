@@ -10,15 +10,20 @@ import { classifyError, isFuzzyMatch } from "./diff";
 /**
  * Calculate accuracy percentage from diff segments.
  * Fuzzy matches count as 0.5 (partial credit).
+ * Insertions (extra words) count as penalties.
  */
 export function calculateAccuracy(segments: DiffSegment[]): number {
-  const refSegments = segments.filter(
+  const refWordCount = segments.filter(
     (s) => s.type === "equal" || s.type === "delete" || s.type === "replace"
-  );
-  if (refSegments.length === 0) return 0;
+  ).length;
+  const insertionCount = segments.filter((s) => s.type === "insert").length;
+
+  // Total = reference words + insertions (everything that should or shouldn't be there)
+  const total = refWordCount + insertionCount;
+  if (total === 0) return 0;
 
   let correct = 0;
-  for (const seg of refSegments) {
+  for (const seg of segments) {
     if (seg.type === "equal") {
       correct += 1;
     } else if (
@@ -27,9 +32,10 @@ export function calculateAccuracy(segments: DiffSegment[]): number {
     ) {
       correct += 0.5; // partial credit for near-misses
     }
+    // delete, replace (non-fuzzy), insert = 0 points
   }
 
-  return Math.round((correct / refSegments.length) * 100);
+  return Math.round((correct / total) * 100);
 }
 
 /**
