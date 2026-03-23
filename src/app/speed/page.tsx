@@ -103,11 +103,13 @@ export default function SpeedPage() {
 
   // ─── Step 2: Dictation (same text) ───
 
-  const startDictation = useCallback(() => {
-    setDictating(true);
-    dictStartRef.current = Date.now();
+  const startDictation = useCallback(async () => {
+    // Request mic permission first (recorder.start is async)
+    await recorder.start();
+    // Then start speech recognition (uses its own stream)
     speech.start();
-    recorder.start();
+    dictStartRef.current = Date.now();
+    setDictating(true);
   }, [speech, recorder]);
 
   const stopDictation = useCallback(async () => {
@@ -263,6 +265,12 @@ export default function SpeedPage() {
             <div className="p-4 rounded-xl bg-bg-card border border-border text-lg leading-relaxed">
               {DEFAULT_TEXT}
             </div>
+
+            {(speech.error || recorder.error) && (
+              <div className="p-3 rounded-lg bg-error/10 text-error text-sm">
+                {speech.error || recorder.error}
+              </div>
+            )}
 
             {!dictating ? (
               <button

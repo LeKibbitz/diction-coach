@@ -78,9 +78,9 @@ function ExerciseEngine({
   const session = useExerciseSession(exercise, userId);
 
   const handleStart = useCallback(() => {
-    session.startCountdown(() => {
+    session.startCountdown(async () => {
+      await recorder.start();
       speech.start();
-      recorder.start();
     });
   }, [session, speech, recorder]);
 
