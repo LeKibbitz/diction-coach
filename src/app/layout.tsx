@@ -13,9 +13,26 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Diction Coach — Entraînez votre voix, pas votre micro",
+  title: "Diction Coach — Entraînement à la dictée vocale",
   description:
-    "Apprenez à dicter sans fautes. Exercices progressifs, analyse audio, et comparaison vitesse frappe vs dictée.",
+    "Améliorez votre diction avec des exercices progressifs et des speed tests. Méthode Fonetix. Multi-langue (FR/EN/IT/ES/DE).",
+  openGraph: {
+    title: "Diction Coach — Entraînement à la dictée vocale",
+    description:
+      "Améliorez votre diction avec des exercices progressifs et des speed tests. Méthode Fonetix. Multi-langue (FR/EN/IT/ES/DE).",
+    url: "https://diction.lekibbitz.fr",
+    siteName: "Diction Coach",
+    images: [
+      {
+        url: "https://diction.lekibbitz.fr/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Diction Coach — Entraînement à la dictée vocale",
+      },
+    ],
+    locale: "fr_FR",
+    type: "website",
+  },
 };
 
 // Inline script to apply saved theme before first paint (avoids flash).
