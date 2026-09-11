@@ -43,6 +43,107 @@ function normalizeLower(text: string): string {
 }
 
 /**
+ * Formes canoniques pour la comparaison.
+ * Permet d'aligner chiffres ↔ mots parlés et lettres épelées ↔ lettres seules.
+ * Appliqué des deux côtés (référence ET reconnaissance) avant le diff.
+ */
+const COMPARISON_CANON: Record<string, string> = {
+  // Chiffres → mot parlé français
+  "0": "zéro",
+  "1": "un",
+  "2": "deux",
+  "3": "trois",
+  "4": "quatre",
+  "5": "cinq",
+  "6": "six",
+  "7": "sept",
+  "8": "huit",
+  "9": "neuf",
+  "10": "dix",
+  // Noms français des lettres → lettre seule
+  // (Web Speech API retourne parfois le nom de la lettre au lieu de la lettre)
+  // Note : "dé" exclu (mot courant = dé à jouer), géré dans canonicalize() par contexte
+  "erre": "r",
+  "vé": "v",
+  "zède": "z",
+  "ixe": "x",
+  "wé": "w",
+  "yé": "y",
+  "ef": "f",
+  "el": "l",
+  "em": "m",
+  "en": "n",
+  "pe": "p",
+  "qu": "q",
+  "es": "s",
+  "te": "t",
+  // Féminin/variantes fréquentes
+  "une": "un",
+};
+
+/**
+ * Normalise un token vers sa forme canonique pour la comparaison.
+ * Ex: "1" → "un", "erre" → "r", "une" → "un"
+ * Les lettres isolées (A-Z) sont déjà leur propre forme canonique.
+ */
+function canonicalize(token: string): string {
+  const lower = token.toLowerCase();
+  return COMPARISON_CANON[lower] ?? lower;
+}
+
+/**
+ * Canonicalisation contextuelle : quand le token de référence est une lettre
+ * isolée (ex: "D"), on accepte aussi le nom français de cette lettre (ex: "dé").
+ * Retourne la forme canonique commune si les deux tokens correspondent.
+ */
+const LETTER_TO_FRENCH_NAME: Record<string, string[]> = {
+  "a": ["ah", "à"],
+  "b": ["bé"],
+  "c": ["cé", "sé"],
+  "d": ["dé"],
+  "e": ["eu", "euh"],
+  "f": ["ef", "effe"],
+  "g": ["gé", "djé"],
+  "h": ["ache"],
+  "i": ["ih"],
+  "j": ["ji", "djè"],
+  "k": ["ka"],
+  "l": ["el", "elle"],
+  "m": ["em", "emme"],
+  "n": ["en", "enne"],
+  "o": ["oh"],
+  "p": ["pé"],
+  "q": ["ku"],
+  "r": ["erre"],
+  "s": ["es", "esse"],
+  "t": ["té"],
+  "u": ["uh"],
+  "v": ["vé"],
+  "w": ["doublevé", "double vé"],
+  "x": ["ixe"],
+  "y": ["igrec", "i grec"],
+  "z": ["zède", "zed"],
+};
+
+/**
+ * Détermine si deux tokens correspondent dans un contexte où l'un pourrait
+ * être une lettre isolée et l'autre son nom français.
+ */
+export function isLetterNameMatch(ref: string, rec: string): boolean {
+  const refLow = ref.toLowerCase();
+  const recLow = rec.toLowerCase();
+  // Lettre isolée dans ref, nom dans rec
+  if (refLow.length === 1 && /[a-z]/.test(refLow)) {
+    return (LETTER_TO_FRENCH_NAME[refLow] ?? []).includes(recLow);
+  }
+  // Inverse : nom dans ref, lettre dans rec
+  if (recLow.length === 1 && /[a-z]/.test(recLow)) {
+    return (LETTER_TO_FRENCH_NAME[recLow] ?? []).includes(refLow);
+  }
+  return false;
+}
+
+/**
  * Tokenize text into words, keeping punctuation as separate tokens.
  */
 function tokenize(text: string): string[] {
@@ -89,10 +190,11 @@ export function compareTexts(
   const refTokens = tokenize(normRef);
   const recTokens = tokenize(normRec);
 
-  // Diff on lowercase for alignment (so "Bonjour" matches "bonjour" in alignment)
-  // but we keep original tokens for display and casing error detection
-  const refLower = refTokens.map((t) => t.toLowerCase());
-  const recLower = recTokens.map((t) => t.toLowerCase());
+  // Diff on lowercase + canonicalized form for alignment.
+  // Exemples : "1" == "un", "erre" == "r", "une" == "un"
+  // On garde les tokens originaux pour l'affichage.
+  const refLower = refTokens.map((t) => canonicalize(t.toLowerCase()));
+  const recLower = recTokens.map((t) => canonicalize(t.toLowerCase()));
 
   const SEP = "\x00";
   const refStr = refLower.join(SEP);
@@ -118,17 +220,22 @@ export function compareTexts(
         refIdx++;
         recIdx++;
 
-        if (origRef !== origRec) {
-          // Casing mismatch (e.g., "Bonjour" vs "bonjour")
+        const semanticMatch =
+          canonicalize(origRef.toLowerCase()) === canonicalize(origRec.toLowerCase()) ||
+          isLetterNameMatch(origRef, origRec);
+
+        if (origRef === origRec || semanticMatch) {
+          // Correspondance exacte ou sémantique (ex: "1" vs "un", "D" vs "dé")
           segments.push({
-            type: "replace",
+            type: "equal",
             reference: origRef,
             recognized: origRec,
             wordIndex: wordIndex++,
           });
         } else {
+          // Différence de casse uniquement (ex: "Bonjour" vs "bonjour")
           segments.push({
-            type: "equal",
+            type: "replace",
             reference: origRef,
             recognized: origRec,
             wordIndex: wordIndex++,
@@ -214,9 +321,17 @@ export function classifyError(segment: DiffSegment): ErrorType | null {
  * rather than a completely wrong word.
  */
 export function isFuzzyMatch(a: string, b: string): boolean {
-  if (a.length < 4 || b.length < 4) return false;
-  const dist = levenshtein(a.toLowerCase(), b.toLowerCase());
-  return dist <= 2;
+  const ca = canonicalize(a.toLowerCase());
+  const cb = canonicalize(b.toLowerCase());
+  // Après canonicalisation, si égaux → fuzzy (ex: "1" vs "un", "erre" vs "r")
+  if (ca === cb) return true;
+  // Lettre isolée vs nom français de la lettre (ex: "D" vs "dé")
+  if (isLetterNameMatch(a, b)) return true;
+  // Seuil adaptatif : tokens courts tolèrent moins d'erreurs
+  const minLen = Math.min(ca.length, cb.length);
+  if (minLen < 2) return false;
+  const maxDist = minLen <= 3 ? 1 : 2;
+  return levenshtein(ca, cb) <= maxDist;
 }
 
 export { PUNCTUATION_COMMANDS };

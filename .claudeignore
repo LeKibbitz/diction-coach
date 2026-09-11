@@ -1,0 +1,12 @@
+node_modules/
+.next/
+dist/
+build/
+.tmp/
+__pycache__/
+*.db
+*.sqlite
+package-lock.json
+.firecrawl/
+.playwright-mcp/
+
